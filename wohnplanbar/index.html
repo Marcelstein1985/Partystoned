@@ -331,6 +331,73 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
   .reveal{opacity:1;transform:none}
 }
 
+
+/* ===== Mobile overflow guard – release requirement ===== */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:clip;
+}
+img,svg,video,canvas{
+  max-width:100%;
+}
+.wrap,
+#landing,#finder,#results,
+.landing-hero,.landing-copy,.hero-media,
+.trust-strip,.visual-story,.story-copy,.story-image,
+.section,.steps-grid,.compare-box,.cta-panel,
+.card,.grid,.result-card,.result-head{
+  min-width:0;
+  max-width:100%;
+}
+h1,h2,h3,p,.lead,.section-lead,.hint,.small,
+.trust-item,.story-point,.opt,.hero-proof span{
+  overflow-wrap:anywhere;
+  word-break:normal;
+  hyphens:auto;
+}
+@media(max-width:640px){
+  .landing-hero h1{
+    font-size:clamp(38px,11.3vw,52px);
+    line-height:1.01;
+    max-width:100%;
+    overflow-wrap:anywhere;
+    hyphens:auto;
+  }
+  .landing-copy,.landing-hero>.landing-copy{width:100%;max-width:100%;min-width:0}
+  .landing-hero .lead{
+    width:100%;
+    max-width:100%;
+    font-size:15.5px;
+    line-height:1.55;
+  }
+  .hero-proof{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+    gap:8px 12px;
+  }
+  .hero-proof span{
+    min-width:0;
+    white-space:normal;
+  }
+  .hero-proof span:last-child{
+    grid-column:1 / -1;
+  }
+  .hero-media,.hero-media img,
+  .trust-strip,.trust-item,
+  .visual-story,.story-image,.story-copy,
+  .compare-box,.cta-panel{
+    width:100%;
+    max-width:100%;
+  }
+  .hero-actions button,.hero-actions a,
+  .actions button{
+    max-width:100%;
+    white-space:normal;
+  }
+}
+
 </style>
 </head>
 <body data-build="v4-stable-1">
@@ -810,6 +877,28 @@ document.getElementById("restart").onclick=()=>{
 };
 document.getElementById("resultHome").addEventListener("click",openHome);
 showStep();
+
+// wohnplanbar-overflow-check: release guard
+function checkHorizontalOverflow(){
+  const viewport=document.documentElement.clientWidth;
+  const offenders=[...document.querySelectorAll("body *")].filter(el=>{
+    const r=el.getBoundingClientRect();
+    return r.width>0 && (r.right>viewport+1 || r.left<-1);
+  });
+  document.documentElement.dataset.horizontalOverflow=offenders.length?"true":"false";
+  if(offenders.length){
+    console.error("[WohnPlanbar QA] Horizontal overflow",offenders.slice(0,12).map(el=>({
+      tag:el.tagName,
+      id:el.id||"",
+      className:typeof el.className==="string"?el.className:"",
+      right:Math.round(el.getBoundingClientRect().right),
+      viewport
+    })));
+  }
+  return offenders;
+}
+window.addEventListener("load",()=>requestAnimationFrame(checkHorizontalOverflow));
+window.addEventListener("resize",()=>requestAnimationFrame(checkHorizontalOverflow));
 
 // Sanfte Scroll-Reveals – rein dekorativ, Inhalte bleiben ohne JS sichtbar.
 if("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
