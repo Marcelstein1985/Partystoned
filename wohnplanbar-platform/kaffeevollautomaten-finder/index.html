@@ -1924,5 +1924,28 @@ function initMotionReveals(){
 }
 initMotionReveals();
 </script>
+
+<!-- Central WohnPlanbar product/partner data layer. The finder keeps its current
+     curated scoring catalogue; approved partner offers can be connected here. -->
+<script src="../data/products.js"></script>
+<script src="../data/partners.js"></script>
+<script src="../assets/product-data.js"></script>
+<script>
+(function(){
+  if(!window.WohnPlanbarData) return;
+  // Bridge approved central offers into the existing finder without changing scoring.
+  if(typeof affiliateCatalog!=="undefined" && Array.isArray(window.WohnPlanbarData.products)){
+    window.WohnPlanbarData.products.forEach(function(product){
+      if(!product || !Array.isArray(product.offers)) return;
+      var keys=[product.sku,product.ean,product.id].filter(Boolean).map(String);
+      keys.forEach(function(key){
+        if(!affiliateCatalog.offersBySku[key] && product.offers.length){
+          affiliateCatalog.offersBySku[key]=product.offers.slice();
+        }
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
