@@ -776,9 +776,27 @@ body:after{
   .breadcrumb{margin-top:15px}
 }
 
+
+.budget-flex-box{
+  margin-top:18px;padding:16px;border-radius:18px;
+  background:linear-gradient(180deg,#fbfcfb,#f3f7f4);
+  border:1px solid rgba(78,107,89,.13)
+}
+.budget-flex-box>strong{display:block;margin-bottom:11px;font-size:14px}
+.budget-flex-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.budget-flex-opt{
+  min-width:0;display:flex;align-items:flex-start;gap:8px;padding:12px;
+  border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;
+  transition:.18s ease
+}
+.budget-flex-opt:has(input:checked){border-color:rgba(78,107,89,.55);background:#edf5f0;box-shadow:0 8px 20px rgba(78,107,89,.08)}
+.budget-flex-opt input{margin-top:2px;accent-color:var(--accent)}
+.budget-flex-opt span{min-width:0}.budget-flex-opt b{display:block;font-size:13px}.budget-flex-opt small{display:block;margin-top:3px;color:var(--muted);line-height:1.35}
+@media(max-width:640px){.budget-flex-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
-<body data-build="v6-bright-advisory">
+<body data-build="coffee-finder-v1-budget-rules">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -893,13 +911,21 @@ body:after{
         <div class="step active" data-step="1">
           <div class="kicker">Frage 1 von 8</div>
           <h2>Wie hoch ist dein Budget?</h2>
-          <p class="hint">Der Prototyp nutzt Preisbereiche. In der Live-Version kommt der Preis direkt aus den Awin-Produktfeeds.</p>
+          <p class="hint">Wähle zuerst deine gewünschte Obergrenze. Danach kannst du festlegen, ob sie strikt gilt oder ob ein sehr gutes Gerät etwas darüber liegen darf.</p>
           <div class="grid">
             <label class="opt"><input type="radio" name="budget" value="400"> Bis 400 €</label>
-            <label class="opt"><input type="radio" name="budget" value="700"> 400–700 €</label>
-            <label class="opt"><input type="radio" name="budget" value="1000"> 700–1.000 €</label>
-            <label class="opt"><input type="radio" name="budget" value="1500"> 1.000–1.500 €</label>
-            <label class="opt"><input type="radio" name="budget" value="2500"> Über 1.500 €</label>
+            <label class="opt"><input type="radio" name="budget" value="700"> Bis 700 €</label>
+            <label class="opt"><input type="radio" name="budget" value="1000"> Bis 1.000 €</label>
+            <label class="opt"><input type="radio" name="budget" value="1500"> Bis 1.500 €</label>
+            <label class="opt"><input type="radio" name="budget" value="2500"> Bis 2.500 €</label>
+          </div>
+          <div class="budget-flex-box">
+            <strong>Wie streng ist deine Budgetgrenze?</strong>
+            <div class="budget-flex-grid">
+              <label class="budget-flex-opt"><input type="radio" name="budgetFlex" value="0" checked><span><b>Strikt</b><small>Nichts über der gewählten Grenze.</small></span></label>
+              <label class="budget-flex-opt"><input type="radio" name="budgetFlex" value="10"><span><b>+10 % flexibel</b><small>Für einen deutlich besseren Treffer.</small></span></label>
+              <label class="budget-flex-opt"><input type="radio" name="budgetFlex" value="20"><span><b>+20 % flexibel</b><small>Wenn der Mehrwert wirklich passt.</small></span></label>
+            </div>
           </div>
         </div>
 
@@ -968,7 +994,7 @@ body:after{
         <div class="step" data-step="8">
           <div class="kicker">Frage 8 von 8</div>
           <h2>Was ist dir besonders wichtig?</h2>
-          <p class="hint">Wähle bis zu zwei Punkte.</p>
+          <p class="hint">Wähle bis zu zwei Punkte. Diese Prioritäten sind <strong>Wünsche</strong> und keine harten Ausschlusskriterien. Budgetgrenze, gewünschte Milchautomatik, zwei Bohnensorten, „Cold Drinks wichtig“ und „sehr kompakt“ behandeln wir dagegen als Muss-Kriterien.</p>
           <div class="grid" id="priorities">
             <label class="opt"><input type="checkbox" name="priority" value="clean"> Wenig Reinigungsaufwand</label>
             <label class="opt"><input type="checkbox" name="priority" value="easy"> Einfache Bedienung</label>
@@ -1135,9 +1161,14 @@ document.querySelectorAll('[name="priority"]').forEach(cb=>{
   })
 });
 
+function allowedBudget(a){
+  const flex=Number(a.budgetFlex||0);
+  return Math.round(a.budget*(1+flex/100));
+}
+
 function fit(product, a){
-  // Hard filters
-  if(product.p > a.budget*1.12) return null;
+  // Harte Muss-Kriterien
+  if(product.p > allowedBudget(a)) return null;
   if(a.milk==="auto" && product.milk<7) return null;
   if(a.milk==="premium" && product.milk<8) return null;
   if(a.beans==="dual" && product.beans<8) return null;
@@ -1169,13 +1200,13 @@ function fit(product, a){
     if(pr==="value") weights.value+=18;
   });
 
-  const targetCap = a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
-  const capacityFit = Math.max(0, 10-Math.abs(product.capacity-targetCap)*1.6);
-  const value = Math.min(10, (a.budget/product.p)*7.5);
+  const targetCap=a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
+  const capacityFit=Math.max(0,10-Math.abs(product.capacity-targetCap)*1.6);
+  const value=Math.min(10,(allowedBudget(a)/product.p)*7.5);
 
   const vals={coffee:product.coffee,milk:product.milk,variety:product.variety,beans:product.beans,easy:product.easy,clean:product.clean,custom:product.custom,cold:product.cold,compact:product.compact,smart:product.smart,capacity:capacityFit,value:value};
   let num=0,den=0;
-  for(const k in weights){ if(weights[k]>0){num += vals[k]*weights[k]; den += 10*weights[k];}}
+  for(const k in weights){if(weights[k]>0){num+=vals[k]*weights[k];den+=10*weights[k]}}
   return Math.round((num/den)*100);
 }
 
@@ -1207,12 +1238,14 @@ function resultImage(role){
 
 function compromisesFor(p,a){
   const c=[];
-  if(p.p > a.budget*1.12) c.push("liegt über deinem gewählten Budget");
-  if(a.milk==="auto" && p.milk<7) c.push("erfüllt den Wunsch nach automatischer Milchzubereitung nicht vollständig");
-  if(a.milk==="premium" && p.milk<8) c.push("Milchkomfort liegt unter deinem Premium-Wunsch");
+  const max=allowedBudget(a);
+  if(p.p>max) c.push("liegt über deiner maximal erlaubten Budgetgrenze");
+  else if(p.p>a.budget) c.push("liegt über deinem Wunschbudget, aber innerhalb deiner gewählten Flexibilität");
+  if(a.milk==="auto" && p.milk<7) c.push("erfüllt dein Muss-Kriterium „automatische Milchzubereitung“ nicht vollständig");
+  if(a.milk==="premium" && p.milk<8) c.push("erfüllt deinen gewünschten Premium-Milchkomfort nicht vollständig");
   if(a.beans==="dual" && p.beans<8) c.push("ist nicht ideal für zwei regelmäßig genutzte Bohnensorten");
-  if(a.cold==="must" && p.cold<7) c.push("bietet keine ausreichend starke Cold-Drink-Funktion");
-  if(a.compact==="very" && p.compact<7) c.push("ist für eine sehr kleine Stellfläche eher zu groß");
+  if(a.cold==="must" && p.cold<7) c.push("erfüllt dein Muss-Kriterium „kalte Kaffeegetränke“ nicht");
+  if(a.compact==="very" && p.compact<7) c.push("ist für deine gewünschte sehr kompakte Stellfläche eher zu groß");
   if(a.priorities.includes("smart") && p.smart<6) c.push("bietet keine ausgeprägten Smart-/App-Funktionen");
   return c;
 }
@@ -1242,14 +1275,15 @@ function relaxedFit(product,a){
   });
   const targetCap=a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
   const capacityFit=Math.max(0,10-Math.abs(product.capacity-targetCap)*1.6);
-  const value=Math.min(10,(a.budget/product.p)*7.5);
+  const value=Math.min(10,(allowedBudget(a)/product.p)*7.5);
   const vals={coffee:product.coffee,milk:product.milk,variety:product.variety,beans:product.beans,easy:product.easy,clean:product.clean,custom:product.custom,cold:product.cold,compact:product.compact,smart:product.smart,capacity:capacityFit,value};
   let num=0,den=0;
   for(const k in weights){if(weights[k]>0){num+=vals[k]*weights[k];den+=10*weights[k]}}
   let score=(num/den)*100;
   const compromises=compromisesFor(product,a);
   compromises.forEach(x=>{
-    if(x.includes("Budget")) score-=Math.min(18, Math.max(6, ((product.p-a.budget)/Math.max(a.budget,1))*18));
+    if(x.includes("maximal erlaubten Budgetgrenze")) score-=Math.min(18,Math.max(6,((product.p-allowedBudget(a))/Math.max(allowedBudget(a),1))*18));
+    else if(x.includes("Wunschbudget")) score-=3;
     else if(x.includes("Smart")) score-=9;
     else score-=12;
   });
@@ -1305,6 +1339,7 @@ function animateScores(){
 function calculate(){
   const a={
     budget:+selected("budget"),
+    budgetFlex:+selected("budgetFlex")||0,
     drink:selected("drink"),
     milk:selected("milk"),
     usage:+selected("usage"),
@@ -1337,8 +1372,8 @@ function calculate(){
     const smartCandidates=relaxed
       .filter(x=>x.p.smart>=6)
       .sort((x,y)=>{
-        const xOver=Math.max(0,x.p.p-a.budget);
-        const yOver=Math.max(0,y.p.p-a.budget);
+        const xOver=Math.max(0,x.p.p-allowedBudget(a));
+        const yOver=Math.max(0,y.p.p-allowedBudget(a));
         if(xOver!==yOver) return xOver-yOver;
         if(x.p.p!==y.p.p) return x.p.p-y.p.p;
         return y.score-x.score;
@@ -1369,12 +1404,13 @@ function calculate(){
   let statusHtml="";
 
   if(exactCount===0){
-    statusHtml="<strong>Kein Gerät erfüllt alle Angaben exakt.</strong> Wir zeigen dir deshalb die drei sinnvollsten Kompromisse und kennzeichnen transparent, wo sie von deinen Wünschen abweichen.";
+    statusHtml="<strong>Kein Gerät erfüllt alle Muss-Kriterien exakt.</strong> Wir zeigen dir deshalb die drei sinnvollsten Kompromisse und kennzeichnen transparent, wo sie von deinen Angaben abweichen.";
+    if(a.budgetFlex===0) statusHtml+=" <strong>Budget-Hinweis:</strong> Du hast deine Budgetgrenze als strikt markiert. Geräte darüber werden nur als ausdrücklich gekennzeichnete Alternative gezeigt.";
   } else if(exactCount<3){
     statusHtml=`<strong>Nur ${exactCount} exakte ${exactCount===1?"Übereinstimmung":"Übereinstimmungen"} gefunden.</strong> Die restlichen Plätze ergänzen wir mit den nächstbesten Kompromissen.`;
   }
   if(a.priorities.includes("smart") && !hasSmartExact){
-    statusHtml += (statusHtml?" ":"") + "<strong>Smart-Hinweis:</strong> In deinem gewählten Budget bzw. mit den übrigen Muss-Kriterien gibt es aktuell keinen exakten Smart-Treffer. Deshalb ist eine Smart-Alternative als Kompromiss dabei.";
+    statusHtml += (statusHtml?" ":"") + "<strong>Smart-Hinweis:</strong> Innerhalb deiner maximalen Budgetgrenze und der übrigen Muss-Kriterien gibt es aktuell keinen passenden Smart-Treffer. Deshalb ist eine Smart-Alternative als Kompromiss dabei.";
   }
   status.innerHTML=statusHtml;
   status.classList.toggle("show",!!statusHtml);
