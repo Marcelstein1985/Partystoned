@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WohnPlanbar – Finde, was wirklich zu deinem Zuhause passt</title>
+<meta name="description" content="WohnPlanbar hilft dir mit smarten Findern bei Kaufentscheidungen rund um Küche, Haushalt, Wohnen, Schlafen und Garten.">
+<style>
+:root{
+  --bg:#f8f8f5;--surface:#fff;--text:#17201c;--muted:#69736e;--line:#e2e8e4;
+  --green:#456d5b;--green2:#6e9583;--soft:#eef5f1;--sand:#d9c2a3;--gold:#b89467;
+  --shadow:0 20px 60px rgba(35,52,44,.09);--shadow2:0 10px 30px rgba(35,52,44,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  margin:0;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Arial,sans-serif;
+  color:var(--text);background:
+  radial-gradient(circle at 0% 0%,rgba(116,154,136,.13),transparent 28%),
+  radial-gradient(circle at 100% 20%,rgba(217,194,163,.16),transparent 26%),
+  linear-gradient(180deg,#fcfdfc,#f6f6f2 72%,#f0f3ef);
+  overflow-x:clip;
+}
+a{color:inherit} button,a{touch-action:manipulation}
+.shell{width:min(1180px,calc(100% - 32px));margin:auto;min-width:0}
+header{
+  position:sticky;top:max(8px,env(safe-area-inset-top));z-index:30;
+  margin:10px auto 0;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:11px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.9);
+  background:rgba(255,255,255,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:var(--shadow2);
+}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:850;font-size:20px;letter-spacing:-.03em}
+.mark{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#29483b,#6d9582);box-shadow:0 8px 18px rgba(69,109,91,.2);font-weight:900}
+.header-actions{display:flex;gap:8px;align-items:center}
+.header-link{font-size:13px;font-weight:750;text-decoration:none;padding:9px 12px;border-radius:999px;color:#506159}
+.header-cta{font-size:13px;font-weight:800;text-decoration:none;padding:10px 14px;border-radius:999px;color:#fff;background:var(--green);box-shadow:0 10px 20px rgba(69,109,91,.18)}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:52px;align-items:center;padding:86px 0 64px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--green);padding:9px 12px;border:1px solid #dae7df;background:rgba(255,255,255,.72);border-radius:999px;box-shadow:var(--shadow2)}
+h1,h2,h3{letter-spacing:-.045em;margin-top:0}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,7vw,88px);font-weight:500;line-height:.96;margin:18px 0 22px;max-width:790px}
+.lead{font-size:19px;line-height:1.68;color:var(--muted);max-width:720px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:14px 19px;border-radius:15px;text-decoration:none;font-size:15px;font-weight:850;transition:.22s ease}
+.btn.primary{position:relative;overflow:hidden;color:#fff;background:linear-gradient(135deg,#315646,#547a68);box-shadow:0 16px 30px rgba(49,86,70,.22)}
+.btn.primary:after{content:"";position:absolute;top:-60%;bottom:-60%;width:28%;left:-40%;transform:rotate(18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);animation:shimmer 5.5s ease-in-out infinite}
+.btn.secondary{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow2)}
+.btn:hover{transform:translateY(-2px)}
+.hero-art{
+  min-height:520px;position:relative;overflow:hidden;border-radius:38px;padding:28px;
+  background:
+    radial-gradient(circle at 78% 15%,rgba(255,255,255,.9),transparent 22%),
+    linear-gradient(145deg,#e6f0e9,#fbfcfb 48%,#eee6db);
+  border:1px solid #e1e9e4;box-shadow:var(--shadow);
+}
+.hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%}
+.hero-art:before{width:260px;height:260px;right:-70px;top:-85px;background:rgba(110,149,131,.13);animation:orb1 10s ease-in-out infinite alternate}
+.hero-art:after{width:240px;height:240px;left:-90px;bottom:-90px;background:rgba(217,194,163,.22);animation:orb2 12s ease-in-out infinite alternate}
+.mosaic{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
+.mini{
+  min-height:170px;border-radius:25px;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.9);box-shadow:0 18px 38px rgba(40,58,49,.08);
+  padding:20px;display:flex;flex-direction:column;justify-content:space-between;transition:.25s ease;
+}
+.mini:hover{transform:translateY(-5px) rotate(-.3deg)}
+.mini.big{grid-row:span 2;min-height:390px;background:linear-gradient(160deg,#fff,#eff6f2)}
+.icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--soft);color:var(--green)}
+.icon svg{width:25px;height:25px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mini h3{font-size:21px;margin:12px 0 4px}.mini p{font-size:13px;line-height:1.5;color:var(--muted);margin:0}
+.mini .tag{display:inline-flex;align-self:flex-start;margin-top:14px;font-size:11px;font-weight:800;color:var(--green);background:#edf5f0;padding:7px 9px;border-radius:999px}
+.section{padding:62px 0}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:26px}
+.section h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(36px,5vw,58px);line-height:1.02;margin-bottom:9px}
+.section-copy{max-width:670px;color:var(--muted);line-height:1.65;margin:0}
+.category-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.category{
+  min-width:0;text-decoration:none;background:rgba(255,255,255,.84);border:1px solid var(--line);
+  border-radius:24px;padding:20px;box-shadow:var(--shadow2);transition:.24s ease;position:relative;overflow:hidden;
+}
+.category:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.category.active{background:linear-gradient(155deg,#fff,#edf5f0);border-color:#cfe0d7}
+.category h3{font-size:18px;margin:17px 0 7px}.category p{font-size:13px;line-height:1.5;color:var(--muted);margin:0;min-height:58px}
+.category .status{display:inline-flex;margin-top:14px;font-size:11px;font-weight:850;padding:7px 9px;border-radius:999px;background:#f1f3f1;color:#66706b}
+.category.active .status{background:#dceae2;color:#315646}
+.feature{
+  display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:28px;align-items:stretch;
+  background:#fff;border:1px solid var(--line);border-radius:34px;padding:18px;box-shadow:var(--shadow);
+}
+.feature-photo{min-height:430px;border-radius:25px;overflow:hidden;position:relative;background:#eef3ef}
+.feature-photo img{width:100%;height:100%;min-height:430px;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.feature:hover .feature-photo img{transform:scale(1.035)}
+.feature-badge{position:absolute;left:16px;top:16px;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);font-size:11px;font-weight:850;color:var(--green)}
+.feature-copy{padding:26px 20px;display:flex;flex-direction:column;justify-content:center}
+.feature-copy h3{font-family:Georgia,"Times New Roman",serif;font-size:clamp(32px,4.2vw,50px);font-weight:500;line-height:1.04;margin-bottom:14px}
+.feature-copy p{color:var(--muted);line-height:1.65;margin:0}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.benefit{padding:17px;border-radius:18px;background:#f8faf8;border:1px solid #e7ece8}
+.benefit strong{display:block;font-size:14px;margin-bottom:4px}.benefit span{font-size:12px;color:var(--muted);line-height:1.45}
+.process{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{padding:24px;border-radius:25px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow2)}
+.step-no{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#f0e2d0,#e4efe8);font-weight:900;color:var(--green);margin-bottom:16px}
+.step h3{font-size:20px;margin-bottom:8px}.step p{font-size:14px;line-height:1.6;color:var(--muted);margin:0}
+.future{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;background:linear-gradient(145deg,#28483a,#486b5a);color:#fff;border-radius:34px;padding:34px;box-shadow:var(--shadow)}
+.future h2{color:#fff;margin-bottom:14px}.future p{color:#dce9e2;line-height:1.7;max-width:690px}
+.future-list{display:flex;flex-wrap:wrap;gap:10px;align-content:center}.future-list span{padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);font-size:13px;font-weight:750}
+footer{padding:46px 0 60px;color:var(--muted);font-size:12px;line-height:1.6}
+.reveal{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.motion .reveal.pending{opacity:0;transform:translateY(28px) scale(.99)}
+.reveal.visible{opacity:1;transform:none}
+@keyframes shimmer{0%,67%{left:-40%}84%,100%{left:130%}}
+@keyframes orb1{from{transform:translate(0,0)}to{transform:translate(-40px,35px)}}
+@keyframes orb2{from{transform:translate(0,0)}to{transform:translate(50px,-35px)}}
+@media(max-width:980px){
+  .hero,.feature,.future{grid-template-columns:1fr}.hero{padding-top:54px}.hero-art{min-height:440px}
+  .category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.process{grid-template-columns:1fr}.benefits{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .shell{width:min(100% - 28px,1180px)}
+  header{position:relative;top:auto;margin-top:8px;padding:10px 11px;border-radius:17px}
+  .header-link{display:none}.header-cta{font-size:12px;padding:9px 11px}
+  .logo{font-size:18px}.mark{width:32px;height:32px;border-radius:10px}
+  .hero{padding:38px 0 38px;gap:22px}.lead{font-size:16px}
+  h1{font-size:clamp(42px,12vw,58px);overflow-wrap:anywhere}
+  .actions{display:grid}.actions .btn{width:100%}
+  .hero-art{min-height:380px;padding:16px;border-radius:27px}.mosaic{gap:10px}
+  .mini{min-height:145px;padding:15px;border-radius:20px}.mini.big{min-height:310px}.mini h3{font-size:17px}.mini p{font-size:11.5px}
+  .category-grid{grid-template-columns:1fr}.category p{min-height:0}
+  .section{padding:45px 0}.section-head{display:block}.section-head .section-copy{margin-top:9px}
+  .feature{padding:12px;border-radius:27px}.feature-photo,.feature-photo img{min-height:300px;height:300px}.feature-copy{padding:18px 8px 8px}
+  .future{padding:24px;border-radius:27px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.motion .reveal.pending{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <a class="logo" href="./index.html"><span class="mark">W</span><span>WohnPlanbar</span></a>
+  <div class="header-actions">
+    <a class="header-link" href="#finder">Finder entdecken</a>
+    <a class="header-cta" href="kaffeevollautomaten-finder/index.html">Kaffee-Finder starten</a>
+  </div>
+</header>
+
+<main>
+<section class="hero reveal">
+  <div>
+    <span class="eyebrow">Dein Zuhause. Besser ausgewählt.</span>
+    <h1>Finde, was wirklich zu deinem Zuhause passt.</h1>
+    <p class="lead">WohnPlanbar hilft dir bei großen und kleinen Kaufentscheidungen – nicht mit endlosen Bestenlisten, sondern mit kurzen Findern, die deine Anforderungen mit passenden Produkten abgleichen.</p>
+    <div class="actions">
+      <a class="btn primary" href="#finder">Finder entdecken</a>
+      <a class="btn secondary" href="kaffeevollautomaten-finder/index.html">Kaffeevollautomaten finden</a>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="WohnPlanbar Themenübersicht">
+    <div class="mosaic">
+      <div class="mini big">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v12H5z"/><path d="M8 16v4m8-4v4M9 8h6m-7 4h8"/></svg></div>
+        <div><span class="tag">Jetzt verfügbar</span><h3>Küche & Kaffee</h3><p>Von Kaffeevollautomaten bis Airfryer: Produkte nach deinem Alltag auswählen.</p></div>
+      </div>
+      <div class="mini">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 5V2m0 20v-3m7-7h3M2 12h3"/></svg></div>
+        <div><h3>Wohnen & Licht</h3><p>Lampen, Lichtplanung und Wohnprodukte.</p></div>
+      </div>
+      <div class="mini">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 11h16v8H4z"/><path d="M7 11V7h10v4M6 19v2m12-2v2"/></svg></div>
+        <div><h3>Schlafen</h3><p>Matratzen, Betten und Schlafkomfort.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal" id="finder">
+  <div class="section-head">
+    <div><span class="eyebrow">WohnPlanbar Bereiche</span><h2>Ein Prinzip. Viele Entscheidungen.</h2></div>
+    <p class="section-copy">Jeder Bereich bekommt einen eigenen Finder mit passenden Fragen, mehreren Marken und einer nachvollziehbaren Top-3-Empfehlung.</p>
+  </div>
+  <div class="category-grid">
+    <a class="category active" href="kaffeevollautomaten-finder/index.html">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 5h12v10H5z"/><path d="M17 8h2a2 2 0 0 1 0 4h-2M8 18h6"/></svg></div>
+      <h3>Küche & Kaffee</h3><p>Kaffeevollautomaten, Airfryer, Küchenmaschinen und weitere Küchenhelfer.</p><span class="status">1 Finder verfügbar</span>
+    </a>
+    <div class="category"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M8 11h6"/></svg></div><h3>Haushalt</h3><p>Saugroboter, Staubsauger, Waschmaschinen, Trockner und mehr.</p><span class="status">Demnächst</span></div>
+    <div class="category"><div class="icon"><svg viewBox="0 0 24 24"><path d="M9 3h6l2 6H7z"/><path d="M12 9v8m-4 4h8"/></svg></div><h3>Wohnen & Licht</h3><p>Lampen, Sofas, Tische, Schränke und passende Einrichtungslösungen.</p><span class="status">Demnächst</span></div>
+    <div class="category"><div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18v7H3z"/><path d="M6 12V8h12v4M5 19v2m14-2v2"/></svg></div><h3>Schlafen</h3><p>Matratzen, Betten und Schlafsysteme passend zu deinen Gewohnheiten.</p><span class="status">Demnächst</span></div>
+    <div class="category"><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0 3c4 0 7-2 7-6-4 0-7 2-7 6Z"/></svg></div><h3>Garten & Outdoor</h3><p>Grills, Mähroboter, Gartenmöbel, Pools und Outdoor-Technik.</p><span class="status">Demnächst</span></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="feature">
+    <div class="feature-photo">
+      <img src="https://images.unsplash.com/photo-1769326541255-c6612ab334a0?auto=format&fit=crop&w=1400&q=85" alt="Hochwertige Küche mit Kaffeevollautomat">
+      <span class="feature-badge">Erster WohnPlanbar Finder</span>
+    </div>
+    <div class="feature-copy">
+      <span class="eyebrow">Kaffeevollautomaten</span>
+      <h3>Welcher Kaffeevollautomat passt wirklich zu dir?</h3>
+      <p>Budget, Lieblingsgetränke, Milchsystem, Platz, Nutzung und Komfortwünsche werden mit verschiedenen Marken und Modellen abgeglichen. Danach erhältst du drei verständliche Empfehlungen.</p>
+      <div class="benefits">
+        <div class="benefit"><strong>30 Modelle</strong><span>Mehrere Marken und Preisbereiche im Prototyp.</span></div>
+        <div class="benefit"><strong>8 Fragen</strong><span>In wenigen Minuten zum passenden Profil.</span></div>
+        <div class="benefit"><strong>3 Ergebnisse</strong><span>Gesamtempfehlung, Preis-Leistung und Alternative.</span></div>
+      </div>
+      <div class="actions"><a class="btn primary" href="kaffeevollautomaten-finder/index.html">Kaffee-Finder starten</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-head"><div><span class="eyebrow">So arbeitet WohnPlanbar</span><h2>Vom Bedarf zur passenden Auswahl.</h2></div></div>
+  <div class="process">
+    <div class="step"><div class="step-no">1</div><h3>Du beschreibst deinen Alltag</h3><p>Kurze Fragen erfassen Budget, Nutzung, Platz, Komfort und persönliche Prioritäten.</p></div>
+    <div class="step"><div class="step-no">2</div><h3>Unpassendes wird aussortiert</h3><p>Harte Anforderungen werden zuerst geprüft. Danach bewerten gewichtete Kriterien die übrigen Produkte.</p></div>
+    <div class="step"><div class="step-no">3</div><h3>Du erhältst eine klare Top 3</h3><p>Keine Liste mit 30 Produkten, sondern wenige nachvollziehbare Empfehlungen inklusive Kompromissen.</p></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="future">
+    <div><span class="eyebrow" style="color:#dce9e2;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08)">WohnPlanbar wächst</span><h2>Die nächsten Finder sind bereits eingeplant.</h2><p>Das System ist von Anfang an als Plattform aufgebaut. Jeder neue Finder bekommt seine eigene Unterseite, eigene Fragen, Produktdaten und Affiliate-Angebote – aber dieselbe WohnPlanbar-Logik.</p></div>
+    <div class="future-list"><span>Airfryer</span><span>Saugroboter</span><span>Lampen</span><span>Matratzen</span><span>Grills</span><span>Mähroboter</span><span>Waschmaschinen</span><span>Gartenmöbel</span></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <strong>WohnPlanbar</strong> · Kaufberatung für dein Zuhause.<br>
+  Hinweis: WohnPlanbar kann bei einem späteren Kauf über gekennzeichnete Partnerlinks eine Provision erhalten. Die Eignungsbewertung eines Produkts soll davon unabhängig bleiben.
+</footer>
+</div>
+<script>
+if("scrollRestoration" in history) history.scrollRestoration="manual";
+window.addEventListener("pageshow",()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+(function(){
+  const els=[...document.querySelectorAll(".reveal")];
+  if(!("IntersectionObserver" in window)||matchMedia("(prefers-reduced-motion: reduce)").matches){els.forEach(x=>x.classList.add("visible"));return;}
+  document.documentElement.classList.add("motion");
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove("pending");e.target.classList.add("visible");io.unobserve(e.target)}}),{threshold:.1});
+  els.forEach((el,i)=>{if(el.getBoundingClientRect().top>innerHeight*.75){el.classList.add("pending");el.style.transitionDelay=Math.min(i*45,220)+"ms"}else el.classList.add("visible");io.observe(el)});
+})();
+</script>
+</body>
+</html>
