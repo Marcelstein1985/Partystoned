@@ -1621,6 +1621,12 @@ function techFactsHtml(p){
   return `<div class="tech-facts">${facts.slice(0,6).map(x=>`<div class="tech-fact"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}</div>`;
 }
 
+function centralProductId(p){
+  if(!window.WohnPlanbarData) return null;
+  const found=window.WohnPlanbarData.findProduct({brand:p.b,model:p.m});
+  return found?found.id:null;
+}
+
 function roleCard(role,item,a){
   const p=item.p, score=item.score;
   const compromises=item.compromises||compromisesFor(p,a);
@@ -1653,7 +1659,7 @@ function roleCard(role,item,a){
           <span class="pill">Vielfalt ${p.variety}/10</span>
           <span class="pill">Reinigung ${p.clean}/10</span>
         </div>
-        ${offersHtml(p)}<div class="score-note">Der Fit-Score bewertet nur die Eigenschaften, die zu deinen Antworten wirklich relevant sind. Nicht benötigte Funktionen verschlechtern den Score nicht.</div>
+        ${offersHtml(p)}${centralProductId(p)?`<div style="margin-top:14px"><a class="product-detail-link" href="../produkt/index.html?id=${encodeURIComponent(centralProductId(p))}" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:14px;padding:12px 15px;font-weight:850;background:#263e32;color:#fff">Produktdetails ansehen →</a></div>`:""}<div class="score-note">Der Fit-Score bewertet nur die Eigenschaften, die zu deinen Antworten wirklich relevant sind. Nicht benötigte Funktionen verschlechtern den Score nicht.</div>
       </div>
     </div>
   </div>`;
