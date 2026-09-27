@@ -73,6 +73,50 @@ button,.btn,.primary,.secondary,.header-cta,.linkbtn,[class*="cta"]{
 @media(max-width:560px){.page-jump{padding-bottom:14px}.profile-grid{grid-template-columns:1fr 1fr}.profile-item{padding:11px}}
 
 .budget-check{margin:18px 0 22px;border-radius:24px;padding:21px;border:1px solid var(--line);background:var(--card)}.budget-check.good{background:linear-gradient(145deg,#f4f8f4,#fffdf9)}.budget-check.tight{background:linear-gradient(145deg,#fbf6eb,#fffdf9)}.budget-check h3{font-size:28px;margin:7px 0}.budget-check p{margin:0;color:var(--muted);line-height:1.55}.budget-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:13px}.budget-chip{padding:8px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:11px;font-weight:850}.budget-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.budget-action{padding:12px;border-radius:14px;background:rgba(255,255,255,.65);border:1px solid var(--line);font-size:12px;line-height:1.45}.budget-action strong{display:block;margin-bottom:3px}@media(max-width:560px){.budget-actions{grid-template-columns:1fr}}
+
+/* WohnPlanbar desktop image/layout normalization */
+img{display:block;max-width:100%}
+@media(min-width:901px){
+  .hero{align-items:stretch!important}
+  .hero-board.with-photo,.hero-board,.hero-img,.hero-media,.premium-hero-media,.hero-visual{
+    min-height:380px!important;
+    max-height:430px!important;
+    height:auto!important;
+  }
+  .hero-board-photo,.hero-img>img,.hero-media>img,.premium-hero-media>img,.board-image>img,.lamp-photo>img{
+    width:100%!important;
+    height:100%!important;
+    min-height:380px!important;
+    max-height:430px!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+  .board-image,.lamp-photo{
+    min-height:380px!important;
+    max-height:430px!important;
+    overflow:hidden!important;
+  }
+  .finder-thumb,.category-photo{
+    height:auto!important;
+    aspect-ratio:16/10!important;
+    overflow:hidden!important;
+  }
+  .finder-thumb>img,.category-photo>img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+  .finder-card,.category{height:100%!important}
+}
+@media(min-width:1200px){
+  .hero-board.with-photo,.hero-board,.hero-img,.hero-media,.premium-hero-media,.hero-visual,
+  .hero-board-photo,.hero-img>img,.hero-media>img,.premium-hero-media>img,.board-image,.board-image>img,.lamp-photo,.lamp-photo>img{
+    min-height:410px!important;
+    max-height:450px!important;
+  }
+}
+
 </style></head><body><div class="wrap">
 <header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a><nav class="nav"><a href="../index.html">Start</a><a href="../haushalt/index.html">Haushalt</a></nav></header>
 <nav class="breadcrumb"><a href="../index.html">WohnPlanbar</a><span>›</span><a href="../haushalt/index.html">Haushalt</a><span>›</span><strong>Saugroboter-Finder</strong></nav>
