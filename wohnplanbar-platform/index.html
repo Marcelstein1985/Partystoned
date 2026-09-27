@@ -293,6 +293,13 @@ img{display:block;max-width:100%}
 .board-image{height:430px!important;min-height:430px!important;max-height:430px!important;overflow:hidden!important}
 .board-image>img{width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;object-fit:cover!important}
 }
+
+/* WP mobile image reliability */
+@media(max-width:900px){
+  .category-photo,.finder-thumb{aspect-ratio:16/10!important;height:auto!important;overflow:hidden!important}
+  .category-photo img,.finder-thumb img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+  .hero-art-photo{width:100%!important;height:100%!important;object-fit:cover!important}
+}
 </style>
 </head>
 <body>
@@ -317,7 +324,7 @@ img{display:block;max-width:100%}
     </div>
   </div>
   <div class="hero-art" aria-label="WohnPlanbar Themenübersicht">
-    <img class="hero-art-photo" src="https://acdn-us.mitiendanube.com/stores/007/327/188/products/capa-new-site-11-9be30126e2259cbeb317732481869447-480-0.webp" alt="Modernes offenes Zuhause mit Wohnbereich und Küche">
+    <img class="hero-art-photo" src="https://images.unsplash.com/photo-1776186243408-3c0489503faa?auto=format&fit=crop&w=1600&q=82" alt="Modernes offenes Zuhause mit Wohnbereich und Küche">
     <div class="mosaic">
       <a class="mini big" href="kueche-kaffee/index.html" style="text-decoration:none;color:inherit">
         <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v12H5z"/><path d="M8 16v4m8-4v4M9 8h6m-7 4h8"/></svg></div>
@@ -341,21 +348,21 @@ img{display:block;max-width:100%}
     <p class="section-copy">Jeder Bereich bekommt einen eigenen Finder mit passenden Fragen, mehreren Marken und einer nachvollziehbaren Top-3-Empfehlung.</p>
   </div>
   <div class="category-grid">
-    <a class="category active" href="kueche-kaffee/index.html"><div class="category-photo"><img loading="lazy" src="assets/kaffee.jpg" alt="Moderne Küche mit Kaffeestation"></div>
+    <a class="category active" href="kueche-kaffee/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1774468721907-eb0645df2932?auto=format&fit=crop&w=1600&q=82" alt="Moderne Küche mit Kaffeestation"></div>
       <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 5h12v10H5z"/><path d="M17 8h2a2 2 0 0 1 0 4h-2M8 18h6"/></svg></div>
       <h3>Küche & Kaffee</h3><p>Kaffeevollautomaten, Airfryer, Küchenmaschinen und weitere Küchenhelfer.</p><span class="status">1 Finder verfügbar</span>
     </a>
-    <a class="category" href="haushalt/index.html"><div class="category-photo"><img loading="lazy" src="https://a.storyblok.com/f/307935/900x597/1762d30a6b/badenovamagazin_smarthome_roboter.jpg/m/3840x0/filters%3Aquality%2875%29" alt="Moderner Hauswirtschaftsraum mit Waschgeräten"></div><div class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M8 11h6"/></svg></div><h3>Haushalt</h3><p>Saugroboter, Staubsauger, Waschmaschinen, Trockner und mehr.</p><span class="status">1 Finder verfügbar</span></a>
-    <a class="category" href="wohnen-licht/index.html"><div class="category-photo"><img loading="lazy" src="assets/kaffee.jpg" alt="Modernes Wohnzimmer mit stimmungsvoller Beleuchtung"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M9 3h6l2 6H7z"/><path d="M12 9v8m-4 4h8"/></svg></div><h3>Wohnen & Licht</h3><p>Lampen, Sofas, Tische, Schränke und passende Einrichtungslösungen.</p><span class="status">1 Finder verfügbar</span></a>
-    <a class="category" href="schlafen/index.html"><div class="category-photo"><img loading="lazy" src="https://shoppicture.ww-api.com/pretty_pict/v1/1800x1800/50x50/v1/commerce_pict/2532770/1764186082020_3535935/chatgpt-image-26-nov-2025-a-09_39_36.png" alt="Modernes warmes Schlafzimmer"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18v7H3z"/><path d="M6 12V8h12v4M5 19v2m14-2v2"/></svg></div><h3>Schlafen</h3><p>Matratzen, Betten und Schlafsysteme passend zu deinen Gewohnheiten.</p><span class="status">Bereich ansehen</span></a>
-    <a class="category" href="garten-outdoor/index.html"><div class="category-photo"><img loading="lazy" src="https://acdn-us.mitiendanube.com/stores/007/327/188/products/capa-new-site-11-9be30126e2259cbeb317732481869447-480-0.webp" alt="Moderne Terrasse mit Garten und Outdoor-Möbeln"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0 3c4 0 7-2 7-6-4 0-7 2-7 6Z"/></svg></div><h3>Garten & Outdoor</h3><p>Grills, Mähroboter, Gartenmöbel, Pools und Outdoor-Technik.</p><span class="status">Bereich ansehen</span></a>
+    <a class="category" href="haushalt/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1762500825301-569628303acb?auto=format&fit=crop&w=1600&q=82" alt="Moderner Hauswirtschaftsraum mit Waschgeräten"></div><div class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M8 11h6"/></svg></div><h3>Haushalt</h3><p>Saugroboter, Staubsauger, Waschmaschinen, Trockner und mehr.</p><span class="status">1 Finder verfügbar</span></a>
+    <a class="category" href="wohnen-licht/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1774468721907-eb0645df2932?auto=format&fit=crop&w=1600&q=82" alt="Modernes Wohnzimmer mit stimmungsvoller Beleuchtung"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M9 3h6l2 6H7z"/><path d="M12 9v8m-4 4h8"/></svg></div><h3>Wohnen & Licht</h3><p>Lampen, Sofas, Tische, Schränke und passende Einrichtungslösungen.</p><span class="status">1 Finder verfügbar</span></a>
+    <a class="category" href="schlafen/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1784318519037-7ee0b1668e95?auto=format&fit=crop&w=1600&q=82" alt="Modernes warmes Schlafzimmer"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18v7H3z"/><path d="M6 12V8h12v4M5 19v2m14-2v2"/></svg></div><h3>Schlafen</h3><p>Matratzen, Betten und Schlafsysteme passend zu deinen Gewohnheiten.</p><span class="status">Bereich ansehen</span></a>
+    <a class="category" href="garten-outdoor/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1776186243408-3c0489503faa?auto=format&fit=crop&w=1600&q=82" alt="Moderne Terrasse mit Garten und Outdoor-Möbeln"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0 3c4 0 7-2 7-6-4 0-7 2-7 6Z"/></svg></div><h3>Garten & Outdoor</h3><p>Grills, Mähroboter, Gartenmöbel, Pools und Outdoor-Technik.</p><span class="status">Bereich ansehen</span></a>
   </div>
 </section>
 
 <section class="section reveal">
   <div class="feature">
     <div class="feature-photo">
-      <img src="assets/kaffee.jpg" alt="Hochwertige Küche mit Kaffeevollautomat">
+      <img src="https://images.unsplash.com/photo-1774468721907-eb0645df2932?auto=format&fit=crop&w=1600&q=82" alt="Hochwertige Küche mit Kaffeevollautomat">
       <span class="feature-badge">Erster WohnPlanbar Finder</span>
     </div>
     <div class="feature-copy">
