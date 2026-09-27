@@ -846,7 +846,7 @@ body:after{
 
 </style>
 </head>
-<body data-build="coffee-finder-v2-relevant-fit">
+<body data-build="coffee-finder-v2-tiebreak">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1083,7 +1083,7 @@ body:after{
     <div id="resultsTop" class="hero results-top-anchor">
       <div class="kicker">Dein Ergebnis</div>
       <h1>Diese Vollautomaten passen am besten zu dir.</h1>
-      <p class="lead">Die Platzierung entsteht aus deinen Anforderungen. 100 % bedeutet: Das Gerät erfüllt die für dich relevanten Kriterien vollständig. Nicht benötigte Funktionen werden nicht mitbewertet. Affiliate-Provisionen fließen nicht in den Fit-Score ein.</p>
+      <p class="lead">Die Platzierung entsteht aus deinen Anforderungen. 100 % bedeutet: Das Gerät erfüllt die für dich relevanten Kriterien vollständig. Nicht benötigte Funktionen werden nicht mitbewertet. Affiliate-Provisionen fließen nicht in den Fit-Score ein.</p><p class="small" style="margin-top:8px">Bei gleichem Fit entscheiden deine gewählten Prioritäten, Preis-Leistung, Bedien-/Reinigungskomfort und erst danach der niedrigere Preis.</p>
     </div>
     <div id="resultStatus" class="result-status" aria-live="polite"></div>
     <div id="resultList"></div>
@@ -1447,6 +1447,63 @@ function animateScores(){
   });
 }
 
+function priorityTieScore(p,a){
+  if(!a.priorities.length) return 0;
+  let sum=0;
+  a.priorities.forEach(pr=>{
+    if(pr==="clean") sum+=p.clean;
+    if(pr==="easy") sum+=p.easy;
+    if(pr==="variety") sum+=p.variety;
+    if(pr==="custom") sum+=p.custom;
+    if(pr==="smart") sum+=p.smart;
+    if(pr==="value"){
+      const value=Math.min(10,(allowedBudget(a)/p.p)*8);
+      sum+=value;
+    }
+  });
+  return sum/a.priorities.length;
+}
+
+function priceValueTieScore(p,a,fitScore){
+  const budgetFactor=Math.min(1.15,allowedBudget(a)/Math.max(p.p,1));
+  return (fitScore/100)*budgetFactor;
+}
+
+function comfortTieScore(p){
+  return (p.easy+p.clean)/2;
+}
+
+function compareRecommendations(x,y,a){
+  // 1. Primary fit score
+  if(y.score!==x.score) return y.score-x.score;
+
+  // 2. Explicit user priorities
+  const py=priorityTieScore(y.p,a);
+  const px=priorityTieScore(x.p,a);
+  if(py!==px) return py-px;
+
+  // 3. Price-performance within the user's allowed budget
+  const vy=priceValueTieScore(y.p,a,y.score);
+  const vx=priceValueTieScore(x.p,a,x.score);
+  if(vy!==vx) return vy-vx;
+
+  // 4. General everyday comfort
+  const cy=comfortTieScore(y.p);
+  const cx=comfortTieScore(x.p);
+  if(cy!==cx) return cy-cx;
+
+  // 5. Finally prefer the lower price
+  if(x.p.p!==y.p.p) return x.p.p-y.p.p;
+
+  // 6. Stable deterministic fallback
+  return (x.p.b+" "+x.p.m).localeCompare(y.p.b+" "+y.p.m,"de");
+}
+
+function valueRecommendationPool(ranked,best){
+  if(!best) return [];
+  return ranked.filter(x=>x!==best && x.score>=Math.max(72,best.score-10));
+}
+
 function calculate(){
   const a={
     budget:+selected("budget"),
@@ -1463,51 +1520,42 @@ function calculate(){
   const strict=products
     .map(p=>({p,score:fit(p,a),compromises:compromisesFor(p,a)}))
     .filter(x=>x.score!==null)
-    .sort((x,y)=>y.score-x.score);
+    .sort((x,y)=>compareRecommendations(x,y,a));
 
   const relaxed=products
     .map(p=>({p,score:relaxedFit(p,a),compromises:compromisesFor(p,a)}))
-    .sort((x,y)=>y.score-x.score);
+    .sort((x,y)=>compareRecommendations(x,y,a));
 
-  const chosen=[];
+  // Master ranking: exact matches first, then clearly marked compromises.
+  const master=[];
   const addUnique=item=>{
-    if(item && !chosen.some(x=>x.p.b===item.p.b && x.p.m===item.p.m)) chosen.push(item);
+    if(item && !master.some(x=>x.p.b===item.p.b && x.p.m===item.p.m)) master.push(item);
   };
+  strict.forEach(addUnique);
+  relaxed.forEach(addUnique);
 
-  strict.slice(0,3).forEach(addUnique);
-  relaxed.forEach(x=>{ if(chosen.length<3) addUnique(x); });
-
-  // If Smart was selected but the three best choices do not really offer it,
-  // replace the weakest slot with the most affordable sensible Smart option.
-  if(a.priorities.includes("smart") && !chosen.some(x=>x.p.smart>=6)){
-    const smartCandidates=relaxed
-      .filter(x=>x.p.smart>=6)
-      .sort((x,y)=>{
-        const xOver=Math.max(0,x.p.p-allowedBudget(a));
-        const yOver=Math.max(0,y.p.p-allowedBudget(a));
-        if(xOver!==yOver) return xOver-yOver;
-        if(x.p.p!==y.p.p) return x.p.p-y.p.p;
-        return y.score-x.score;
-      });
-    const smartAlt=smartCandidates[0];
-    if(smartAlt){
-      if(chosen.length>=3) chosen.pop();
-      addUnique(smartAlt);
-    }
-  }
-
-  // Absolute safety net: the UI must never end without three result cards.
+  // Absolute safety net.
   products.forEach(p=>{
-    if(chosen.length<3) addUnique({p,score:relaxedFit(p,a),compromises:compromisesFor(p,a)});
+    if(master.length<3) addUnique({p,score:relaxedFit(p,a),compromises:compromisesFor(p,a)});
   });
 
-  const best=chosen[0];
-  let value=[...chosen]
-    .filter(x=>x!==best)
-    .sort((x,y)=>(x.p.p/Math.max(x.score,1))-(y.p.p/Math.max(y.score,1)))[0] || chosen[1];
+  const best=master[0];
 
-  let alt=chosen.find(x=>x!==best && x!==value && x.p.b!==best.p.b);
-  if(!alt) alt=chosen.find(x=>x!==best && x!==value) || chosen[2];
+  // Price-performance tip: stay reasonably close to the best fit,
+  // then maximize fit per euro instead of merely choosing the second-ranked item.
+  const valuePool=valueRecommendationPool(master,best);
+  let value=[...valuePool].sort((x,y)=>{
+    const xIndex=(x.score/100)/Math.max(x.p.p,1);
+    const yIndex=(y.score/100)/Math.max(y.p.p,1);
+    if(yIndex!==xIndex) return yIndex-xIndex;
+    return compareRecommendations(x,y,a);
+  })[0];
+  if(!value) value=master.find(x=>x!==best) || best;
+
+  // Alternative: preferably a different brand while remaining close to the top fit.
+  let alt=master.find(x=>x!==best && x!==value && x.p.b!==best.p.b && x.score>=Math.max(70,best.score-12));
+  if(!alt) alt=master.find(x=>x!==best && x!==value && x.p.b!==best.p.b);
+  if(!alt) alt=master.find(x=>x!==best && x!==value) || master[2] || value;
 
   const status=document.getElementById("resultStatus");
   const exactCount=strict.length;
@@ -1520,16 +1568,31 @@ function calculate(){
   } else if(exactCount<3){
     statusHtml=`<strong>Nur ${exactCount} exakte ${exactCount===1?"Übereinstimmung":"Übereinstimmungen"} gefunden.</strong> Die restlichen Plätze ergänzen wir mit den nächstbesten Kompromissen.`;
   }
+
+  // If Smart is explicitly important but no exact Smart device exists,
+  // prefer the closest affordable Smart option as the alternative.
   if(a.priorities.includes("smart") && !hasSmartExact){
+    const smartAlt=relaxed
+      .filter(x=>x.p.smart>=6 && x!==best && x!==value)
+      .sort((x,y)=>{
+        const xOver=Math.max(0,x.p.p-allowedBudget(a));
+        const yOver=Math.max(0,y.p.p-allowedBudget(a));
+        if(xOver!==yOver) return xOver-yOver;
+        if(x.p.p!==y.p.p) return x.p.p-y.p.p;
+        return compareRecommendations(x,y,a);
+      })[0];
+
+    if(smartAlt) alt=smartAlt;
     statusHtml += (statusHtml?" ":"") + "<strong>Smart-Hinweis:</strong> Innerhalb deiner maximalen Budgetgrenze und der übrigen Muss-Kriterien gibt es aktuell keinen passenden Smart-Treffer. Deshalb ist eine Smart-Alternative als Kompromiss dabei.";
   }
+
   status.innerHTML=statusHtml;
   status.classList.toggle("show",!!statusHtml);
 
   document.getElementById("resultList").innerHTML =
     roleCard("Beste Gesamt-Empfehlung",best,a)+
     roleCard("Preis-Leistungs-Tipp",value,a)+
-    roleCard(a.priorities.includes("smart") && alt.p.smart>=6 && !hasSmartExact ? "Smart-Alternative" : "Sinnvolle Alternative",alt,a);
+    roleCard(a.priorities.includes("smart") && !hasSmartExact && alt.p.smart>=6 ? "Smart-Alternative" : "Sinnvolle Alternative",alt,a);
 
   finder.style.display="none";
   landing.style.display="none";
