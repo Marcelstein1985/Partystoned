@@ -844,9 +844,23 @@ body:after{
 }
 @media(max-width:640px){.fit-label{font-size:10px;max-width:100px}}
 
+
+.tech-facts{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0 2px
+}
+.tech-fact{
+  min-width:0;padding:11px 12px;border-radius:13px;background:#f8faf8;
+  border:1px solid rgba(78,107,89,.10)
+}
+.tech-fact b{display:block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tech-fact span{display:block;font-size:12px;line-height:1.35;color:var(--text);overflow-wrap:anywhere}
+.source-link{display:inline-flex;margin-top:10px;font-size:11px;font-weight:800;color:var(--accent-dark);text-decoration:none}
+.source-link:hover{text-decoration:underline}
+@media(max-width:640px){.tech-facts{grid-template-columns:1fr 1fr}.tech-fact{padding:10px}.tech-fact span{font-size:11.5px}}
+
 </style>
 </head>
-<body data-build="coffee-finder-v2-tiebreak-dynamic-role">
+<body data-build="coffee-finder-v3-tech-data">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1103,12 +1117,12 @@ body:after{
 <script>
 const products = [
   // Scores 0-10: coffee, milk, variety, beans, easy, clean, custom, cold, compact, smart, capacity
-  {b:"De’Longhi",m:"Magnifica S",sku:"ECAM22.110.SB",p:349,verified:true, coffee:8,milk:3,variety:4,beans:2,easy:7,clean:8,custom:5,cold:0,compact:7,smart:0,capacity:6},
-  {b:"De’Longhi",m:"Magnifica Evo",sku:"ECAM290.89.SBX EX:1",p:479,verified:true, coffee:8,milk:8,variety:7,beans:2,easy:8,clean:8,custom:6,cold:0,compact:7,smart:0,capacity:7},
-  {b:"De’Longhi",m:"Magnifica Plus",sku:"ECAM320.70.TB",p:679,verified:true, coffee:8,milk:9,variety:9,beans:2,easy:9,clean:8,custom:8,cold:3,compact:6,smart:0,capacity:8},
-  {b:"De’Longhi",m:"Rivelia",sku:"EXAM440.55.G",p:769,verified:true, coffee:8,milk:9,variety:9,beans:10,easy:9,clean:8,custom:8,cold:7,compact:9,smart:0,capacity:6},
-  {b:"De’Longhi",m:"Eletta Explore",sku:"ECAM450.65.S EX:4",p:979,verified:true, coffee:9,milk:10,variety:10,beans:2,easy:9,clean:9,custom:9,cold:10,compact:5,smart:8,capacity:9},
-  {b:"De’Longhi",m:"PrimaDonna Soul",sku:"ECAM612.55.SB",p:1049,verified:true, coffee:9,milk:10,variety:10,beans:2,easy:9,clean:9,custom:10,cold:1,compact:5,smart:9,capacity:9},
+  {b:"De’Longhi",m:"Magnifica S",sku:"ECAM22.110.SB",p:349,verified:true,img:"https://dam.delonghi.com/902x902/assets/223647",source:"https://www.delonghi.com/de-de/p/magnifica-s-ecam22.110.sb-magnifica-s-kaffeevollautomat/ECAM22.110.SB.html",tech:{drinks:"Espresso · Espresso Lungo · Heißwasser",milkSystem:"Klassischer manueller Milchaufschäumer",display:"Tasten + Drehregler",dimensions:"23 × 43 × 34 cm",tank:"1,8 l",beansText:"250 g Bohnenbehälter",profiles:"–",app:"Nein"},coffee:8,milk:3,variety:4,beans:2,easy:7,clean:8,custom:5,cold:0,compact:7,smart:0,capacity:6},
+  {b:"De’Longhi",m:"Magnifica Evo",sku:"ECAM290.89.SBX EX:1",p:479,verified:true,img:"https://dam.delonghi.com/902x902/assets/323584",source:"https://www.delonghi.com/de-de/p/magnifica-evo-kaffeevollautomat-magnifica-evo-ecam290.89.sbx-ex1/ECAM290.89.SBX%2BEX%253A1.html",tech:{drinks:"7 One-Touch-Getränke",milkSystem:"LatteCrema Hot",display:"Sensor-Touch mit Symbolen",dimensions:"–",tank:"–",beansText:"1 Bohnenbehälter",profiles:"–",app:"Nein"},coffee:8,milk:8,variety:7,beans:2,easy:8,clean:8,custom:6,cold:0,compact:7,smart:0,capacity:7},
+  {b:"De’Longhi",m:"Magnifica Plus",sku:"ECAM320.70.TB",p:679,verified:true,img:"https://dam.delonghi.com/902x902/assets/276202",source:"https://www.delonghi.com/de-de/p/magnifica-plus-magnifica-plus-kaffeemaschine-ecam320.70.tb/ECAM320.70.TB.html",tech:{drinks:"18 heiße und kalte Getränke",milkSystem:"LatteCrema Hot · 3 Schaumtexturen",display:"3,5-Zoll Full-Touch Farbdisplay",dimensions:"24 × 44 × 36 cm",tank:"ca. 1,9 l",beansText:"1 Bohnenbehälter",profiles:"Bis zu 4",app:"Nein"},coffee:8,milk:9,variety:9,beans:2,easy:9,clean:8,custom:8,cold:3,compact:6,smart:0,capacity:8},
+  {b:"De’Longhi",m:"Rivelia",sku:"EXAM440.55.G",p:769,verified:true,img:"https://dam.delonghi.com/902x902/assets/380685",source:"https://www.delonghi.com/de-de/p/rivelia-rivelia-kaffeevollautomat-exam440.55.g/EXAM440.55.G.html",tech:{drinks:"8 vorprogrammierte Getränke · optional 6 kalte Milchspezialitäten",milkSystem:"LatteCrema Hot · Cool optional",display:"3,5-Zoll Full-Touch Farbdisplay",dimensions:"24,5 × 43 × 38,5 cm",tank:"1,4 l",beansText:"2 austauschbare 250-g-Behälter",profiles:"Bis zu 4",app:"Nein"},coffee:8,milk:9,variety:9,beans:10,easy:9,clean:8,custom:8,cold:7,compact:9,smart:0,capacity:6},
+  {b:"De’Longhi",m:"Eletta Explore",sku:"ECAM450.65.S EX:4",p:979,verified:true,img:"https://dam.delonghi.com/902x902/assets/257456",source:"https://www.delonghi.com/de-de/p/eletta-explore-automatische-kaffeemaschine-eletta-explore-ecam450.65.s-ex4/ECAM450.65.S%2BEX%3A4.html",tech:{drinks:"Über 50 heiße, kalte und Cold-Brew-Rezepte",milkSystem:"LatteCrema Hot & Cool",display:"3,5-Zoll TFT Farbdisplay",dimensions:"–",tank:"–",beansText:"1 Bohnenbehälter",profiles:"Personalisierbar",app:"Coffee Link App · WLAN"},coffee:9,milk:10,variety:10,beans:2,easy:9,clean:9,custom:9,cold:10,compact:5,smart:8,capacity:9},
+  {b:"De’Longhi",m:"PrimaDonna Soul",sku:"ECAM612.55.SB",p:1049,verified:true,img:"https://dam.delonghi.com/902x902/assets/215516",source:"https://www.delonghi.com/de-de/p/primadonna-soul-ecam612.55.sb-primadonna-soul-kaffeevollautomat/ECAM612.55.SB.html",tech:{drinks:"Bis zu 18 One-Touch-Getränke",milkSystem:"LatteCrema Hot",display:"4,3-Zoll Full-Touch TFT",dimensions:"–",tank:"–",beansText:"1 Bohnenbehälter",profiles:"Personalisierbar",app:"Coffee Link App"},coffee:9,milk:10,variety:10,beans:2,easy:9,clean:9,custom:10,cold:1,compact:5,smart:9,capacity:9},
 
   {b:"Melitta",m:"Purista",sku:"6769696_DE",p:439,verified:true, coffee:9,milk:1,variety:4,beans:2,easy:7,clean:8,custom:6,cold:0,compact:10,smart:0,capacity:5},
   {b:"Melitta",m:"Avanza",sku:"6767843_DE",p:469,verified:true, coffee:8,milk:5,variety:5,beans:2,easy:7,clean:8,custom:6,cold:0,compact:10,smart:0,capacity:6},
@@ -1349,10 +1363,10 @@ function reasons(p,a){
 }
 
 function productImage(p){
+  if(p.img) return p.img;
   const exact={
     "SA403BE0":"https://click.ua/content/shop/products/348097/kofemashina-krups-coffee-crush-experience-sa403be0-800x800-0c44-prod-500x500-b941.jpg",
-    "6769696_DE":"https://www.melitta-international.com/adobe/dynamicmedia/deliver/dm-aid--ff68e580-1113-43f9-bd6a-6f2a85aaa113/kaffeevollautomat-melitta-purista-pureblack--6771312--2.png?preferwebp=true&quality=85",
-    "ECAM450.65.S EX:4":"https://www.interdiscount.ch/static-shops/products/720/fc1ff7508d6f28f942bcac6ab365d0e72f97.jpg"
+    "6769696_DE":"https://www.melitta-international.com/adobe/dynamicmedia/deliver/dm-aid--ff68e580-1113-43f9-bd6a-6f2a85aaa113/kaffeevollautomat-melitta-purista-pureblack--6771312--2.png?preferwebp=true&quality=85"
   };
   return exact[p.sku]||null;
 }
@@ -1398,6 +1412,21 @@ function fitLabel(score){
   return "Alternative";
 }
 
+function techFactsHtml(p){
+  if(!p.tech) return "";
+  const facts=[
+    ["Getränke",p.tech.drinks],
+    ["Milchsystem",p.tech.milkSystem],
+    ["Bedienung",p.tech.display],
+    ["Maße",p.tech.dimensions],
+    ["Wassertank",p.tech.tank],
+    ["Bohnen",p.tech.beansText],
+    ["Profile",p.tech.profiles],
+    ["Smart",p.tech.app]
+  ].filter(x=>x[1]&&x[1]!=="–");
+  return `<div class="tech-facts">${facts.slice(0,6).map(x=>`<div class="tech-fact"><b>${x[0]}</b><span>${x[1]}</span></div>`).join("")}</div>`;
+}
+
 function roleCard(role,item,a){
   const p=item.p, score=item.score;
   const compromises=item.compromises||compromisesFor(p,a);
@@ -1421,6 +1450,8 @@ function roleCard(role,item,a){
         </div>
         <ul class="reasons">${reasons(p,a).map(x=>`<li>${x}</li>`).join("")}</ul>
         ${compromises.length ? `<div class="compromise-list"><strong>Das solltest du wissen:</strong>${compromises.map(x=>`<div>• ${x}</div>`).join("")}</div>` : ""}
+        ${techFactsHtml(p)}
+        ${p.source?`<a class="source-link" href="${p.source}" target="_blank" rel="noopener">Herstellerdaten ansehen ↗</a>`:""}
         <div class="meta">
           <span class="pill">Kaffee ${p.coffee}/10</span>
           <span class="pill">Milch ${p.milk}/10</span>
