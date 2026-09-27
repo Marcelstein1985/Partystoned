@@ -24,5 +24,14 @@ window.WP_CATEGORY_SCHEMAS = {
       "cri", "dimmable", "smart", "smartEcosystem", "socket",
       "ipRating", "energyClass", "widthMm", "heightMm", "depthMm"
     ]
+  },
+  saugroboter: {
+    matchFields: ["ean", "brand", "model"],
+    attributes: [
+      "areaMaxM2", "navigation", "obstacleAvoidance", "carpetDetection",
+      "petHair", "mopping", "mopLift", "selfEmptying", "mopWashing",
+      "mopDrying", "dockWaterRefill", "dockDrain", "heightMm",
+      "noiseDb", "batteryMin", "smart", "voiceAssistants"
+    ]
   }
 };
