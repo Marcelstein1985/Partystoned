@@ -858,9 +858,25 @@ body:after{
 .source-link:hover{text-decoration:underline}
 @media(max-width:640px){.tech-facts{grid-template-columns:1fr 1fr}.tech-fact{padding:10px}.tech-fact span{font-size:11.5px}}
 
+
+.offer-box{margin-top:16px;padding:15px;border-radius:16px;background:#f7f9f7;border:1px solid rgba(78,107,89,.12)}
+.offer-box-head{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:10px}
+.offer-box-head strong{font-size:15px}.offer-from{font-size:12px;color:var(--muted);white-space:nowrap}
+.offer-empty{font-size:12px;line-height:1.5;color:var(--muted)}
+.offer-list{display:grid;gap:8px}
+.offer-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 11px;border-radius:13px;background:#fff;border:1px solid var(--line)}
+.offer-merchant{min-width:0}.offer-merchant b{display:block;font-size:13px}.offer-merchant span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.offer-price{font-size:14px;font-weight:900;white-space:nowrap}
+.offer-link{display:inline-flex;align-items:center;justify-content:center;padding:9px 11px;border-radius:10px;background:var(--accent-dark);color:#fff;text-decoration:none;font-size:11px;font-weight:850;white-space:nowrap}
+.offer-note{margin-top:9px;font-size:10px;line-height:1.45;color:var(--muted)}
+@media(max-width:640px){
+  .offer-row{grid-template-columns:minmax(0,1fr) auto}
+  .offer-link{grid-column:1/-1;width:100%}
+}
+
 </style>
 </head>
-<body data-build="coffee-finder-v3-rights-safe-product-images">
+<body data-build="coffee-finder-v4-awin-ready-offers">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1362,11 +1378,79 @@ function reasons(p,a){
   return rs.slice(0,4);
 }
 
+// Awin-ready presentation layer.
+// IMPORTANT: no feed URL, access token or credentials belong in this public HTML.
+// A protected importer/server job will later populate offersBySku with approved feed data.
+const affiliateCatalog={
+  updatedAt:null,
+  offersBySku:Object.create(null)
+};
+
+/*
+Expected normalized offer shape:
+{
+  merchant: "Shopname",
+  price: 399.99,
+  currency: "EUR",
+  deeplink: "https://...",
+  availability: "Auf Lager",
+  image: "https://...",
+  imageUsage: "partner-feed",
+  source: "awin",
+  updatedAt: "2026-09-27T09:00:00+02:00"
+}
+*/
+function productKey(p){
+  return String(p.sku||"").trim();
+}
+
+function getProductOffers(p){
+  const raw=affiliateCatalog.offersBySku[productKey(p)]||[];
+  return raw
+    .filter(o=>o && Number.isFinite(Number(o.price)) && o.deeplink && o.merchant)
+    .map(o=>({...o,price:Number(o.price)}))
+    .sort((a,b)=>a.price-b.price);
+}
+
+function approvedFeedImage(p){
+  const offer=getProductOffers(p).find(o=>o.image && o.imageUsage==="partner-feed" && o.source==="awin");
+  return offer?offer.image:null;
+}
+
+function formatOfferPrice(value,currency="EUR"){
+  try{
+    return new Intl.NumberFormat("de-DE",{style:"currency",currency}).format(value);
+  }catch(e){
+    return Number(value).toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+  }
+}
+
+function offersHtml(p){
+  const offers=getProductOffers(p);
+  if(!offers.length){
+    return `<div class="offer-box">
+      <div class="offer-box-head"><strong>Angebote vergleichen</strong><span class="offer-from">noch nicht verbunden</span></div>
+      <div class="offer-empty">Sobald der freigegebene Awin-Produktfeed angebunden ist, erscheinen hier automatisch verfügbare Händler, Livepreise und Deeplinks. Aktuell zeigen wir bewusst keine erfundenen Angebote.</div>
+    </div>`;
+  }
+
+  const lowest=offers[0];
+  return `<div class="offer-box">
+    <div class="offer-box-head"><strong>Angebote vergleichen</strong><span class="offer-from">ab ${formatOfferPrice(lowest.price,lowest.currency||"EUR")}</span></div>
+    <div class="offer-list">
+      ${offers.slice(0,4).map(o=>`<div class="offer-row">
+        <div class="offer-merchant"><b>${o.merchant}</b><span>${o.availability||"Verfügbarkeit laut Partnerfeed"}</span></div>
+        <div class="offer-price">${formatOfferPrice(o.price,o.currency||"EUR")}</div>
+        <a class="offer-link" href="${o.deeplink}" target="_blank" rel="sponsored noopener">Zum Angebot</a>
+      </div>`).join("")}
+    </div>
+    <div class="offer-note">Die Produktempfehlung entsteht unabhängig vom Händlerangebot. Provisionen beeinflussen den Fit-Score nicht.</div>
+  </div>`;
+}
+
 function productImage(p){
-  // Only render images with an explicit usage basis:
-  // feedImg = image supplied through an approved affiliate/product feed
-  // licensedImg = image with documented commercial usage permission
-  return p.feedImg || p.licensedImg || null;
+  // Only render images with an explicit usage basis.
+  return approvedFeedImage(p) || p.feedImg || p.licensedImg || null;
 }
 
 function productImageLabel(p){
@@ -1448,7 +1532,7 @@ function roleCard(role,item,a){
             <span class="badge">${role}</span>
             <h3>${p.b} ${p.m}</h3>
             ${p.sku?`<div class="small"><strong>Modell:</strong> ${p.sku}${p.verified?" · Herstellerdaten geprüft":""}${productImage(p)?` · ${productImageLabel(p)}`:""}</div>`:""}
-            <div class="small">Interner Preisanker im Prototyp: ca. ${p.p.toLocaleString("de-DE")} € – später durch Live-Awin-Preis ersetzt.</div>
+            <div class="small">Preisorientierung für die Empfehlung: ca. ${p.p.toLocaleString("de-DE")} € · kein Live-Angebot.</div>
           </div>
           <div><div class="score" data-score="${score}">0%</div><div class="fit-label">${fitLabel(score)}</div></div>
         </div>
@@ -1462,7 +1546,7 @@ function roleCard(role,item,a){
           <span class="pill">Vielfalt ${p.variety}/10</span>
           <span class="pill">Reinigung ${p.clean}/10</span>
         </div>
-        <div class="pricebox"><strong>Angebote vergleichen</strong><br><span class="small">Hier erscheinen später verfügbare Awin-Händler mit Livepreis und Deeplink.</span></div><div class="score-note">Der Fit-Score bewertet nur die Eigenschaften, die zu deinen Antworten wirklich relevant sind. Nicht benötigte Funktionen verschlechtern den Score nicht.</div>
+        ${offersHtml(p)}<div class="score-note">Der Fit-Score bewertet nur die Eigenschaften, die zu deinen Antworten wirklich relevant sind. Nicht benötigte Funktionen verschlechtern den Score nicht.</div>
       </div>
     </div>
   </div>`;
