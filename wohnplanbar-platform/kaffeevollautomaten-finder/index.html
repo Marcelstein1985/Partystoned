@@ -846,7 +846,7 @@ body:after{
 
 </style>
 </head>
-<body data-build="coffee-finder-v2-tiebreak">
+<body data-build="coffee-finder-v2-tiebreak-dynamic-role">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1552,6 +1552,10 @@ function calculate(){
   })[0];
   if(!value) value=master.find(x=>x!==best) || best;
 
+  const bestValueIndex=(best.score/100)/Math.max(best.p.p,1);
+  const secondValueIndex=(value.score/100)/Math.max(value.p.p,1);
+  const valueRole=secondValueIndex>bestValueIndex*1.02 ? "Preis-Leistungs-Tipp" : "Weitere starke Wahl";
+
   // Alternative: preferably a different brand while remaining close to the top fit.
   let alt=master.find(x=>x!==best && x!==value && x.p.b!==best.p.b && x.score>=Math.max(70,best.score-12));
   if(!alt) alt=master.find(x=>x!==best && x!==value && x.p.b!==best.p.b);
@@ -1591,7 +1595,7 @@ function calculate(){
 
   document.getElementById("resultList").innerHTML =
     roleCard("Beste Gesamt-Empfehlung",best,a)+
-    roleCard("Preis-Leistungs-Tipp",value,a)+
+    roleCard(valueRole,value,a)+
     roleCard(a.priorities.includes("smart") && !hasSmartExact && alt.p.smart>=6 ? "Smart-Alternative" : "Sinnvolle Alternative",alt,a);
 
   finder.style.display="none";
