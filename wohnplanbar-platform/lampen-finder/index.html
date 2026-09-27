@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WohnPlanbar · Wohnen & Licht · Lampen-Finder</title>
+<meta name="description" content="Finde mit dem WohnPlanbar Lampen-Finder passende Lichtarten und technische Richtwerte anhand von Raum, Größe, Nutzung, Lichtfarbe, Bedienung und Stil.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f5f0e7">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WohnPlanbar · Lampen-Finder">
+<meta property="og:description" content="8 kurze Fragen für eine passende Lichtlösung – mit Lampentyp, Lumen-Richtwert, Lichtfarbe und sinnvollen Funktionen.">
+<style>
+:root{
+  --bg:#f5f0e7;--bg2:#ebe1d2;--card:#fffdf9;--text:#241b15;--muted:#74675e;
+  --line:rgba(62,43,31,.13);--accent:#4e6b59;--accent-dark:#263e32;--accent2:#e2ebe3;
+  --sand:#c7aa87;--cream:#fff8ed;--shadow:0 24px 70px rgba(63,43,28,.10);--warn:#8a5c2b
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 12% -10%,rgba(212,187,153,.28),transparent 30%),radial-gradient(circle at 92% 14%,rgba(87,117,92,.12),transparent 26%),linear-gradient(180deg,#fbf8f2 0%,var(--bg) 58%,#efe6d8 100%)}
+a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px 56px;min-width:0}
+.site-header{position:sticky;top:12px;z-index:30;margin-top:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid rgba(65,47,35,.11);background:rgba(255,253,249,.84);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:18px;box-shadow:0 12px 36px rgba(55,37,25,.07)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:18px;font-weight:850}.brand-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent-dark),#617b67);color:#fff;font-family:Georgia,serif;font-weight:700}.platform-nav{display:flex;align-items:center;gap:6px}.platform-nav a{text-decoration:none;font-size:12px;font-weight:800;color:var(--muted);padding:9px 10px;border-radius:999px}.platform-nav a:hover{background:rgba(78,107,89,.08);color:var(--accent-dark)}
+.breadcrumb{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:24px 0 0;color:var(--muted);font-size:12px}.breadcrumb a{text-decoration:none;font-weight:800}.breadcrumb a:hover{text-decoration:underline}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:52px;align-items:center;padding:58px 0 46px}.eyebrow,.kicker{display:inline-flex;padding:9px 13px;border-radius:999px;background:rgba(78,107,89,.10);border:1px solid rgba(78,107,89,.14);color:var(--accent-dark);font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.045em}h1{font-size:clamp(48px,7vw,82px);line-height:.96;margin:18px 0 22px}.lead{font-size:18px;line-height:1.65;color:var(--muted);max-width:700px}
+.hero-visual{min-height:470px;border-radius:34px;padding:28px;background:linear-gradient(145deg,#e7eee8,#fffaf3 48%,#eadcca);border:1px solid rgba(65,47,35,.10);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative;overflow:hidden}.light-card{border-radius:24px;padding:20px;background:rgba(255,253,249,.86);border:1px solid rgba(255,255,255,.8);box-shadow:0 18px 44px rgba(36,25,17,.08);display:flex;flex-direction:column;justify-content:space-between}.light-card.big{grid-row:span 2;background:linear-gradient(160deg,#fffdf9,#edf3ee)}.lamp-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:var(--accent2);color:var(--accent-dark);font-size:24px;font-weight:900}.light-card h3{font-size:24px;margin:16px 0 8px}.light-card p{font-size:13px;line-height:1.5;color:var(--muted);margin:0}.light-card strong{font-size:36px;font-family:Georgia,serif;color:var(--accent-dark);font-weight:500}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn,button{appearance:none;border:0;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:15px;padding:15px 20px;font-weight:850;font-size:15px;cursor:pointer;transition:.2s ease}.primary{color:#fff;background:linear-gradient(135deg,var(--accent-dark),#4e6b59);box-shadow:0 14px 32px rgba(38,62,50,.22)}.secondary{background:rgba(255,255,255,.72);border:1px solid var(--line);color:var(--text)}.primary:hover,.secondary:hover{transform:translateY(-2px)}
+.trust-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 42px}.trust-item{background:rgba(255,253,249,.88);border:1px solid var(--line);border-radius:20px;padding:18px}.trust-item strong{display:block;font-size:15px;margin-bottom:5px}.trust-item span{font-size:12px;line-height:1.5;color:var(--muted)}
+.section{padding:44px 0}.section h2{font-size:clamp(34px,5vw,54px);margin:0 0 10px}.section-copy{color:var(--muted);line-height:1.65;max-width:760px;margin:0 0 24px}.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.step-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}.step-no{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent2);color:var(--accent-dark);font-weight:900;margin-bottom:14px}.step-card h3{font-size:20px;margin:0 0 8px}.step-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0}
+.cta-panel{background:linear-gradient(145deg,#28483a,#486b5a);color:#fff;border-radius:30px;padding:30px;text-align:center;margin:32px 0;box-shadow:var(--shadow)}.cta-panel h2{color:#fff;margin:0 0 10px}.cta-panel p{color:#dce9e2;max-width:720px;margin:0 auto 20px;line-height:1.6}.cta-panel .primary{background:#fff;color:var(--accent-dark);box-shadow:none}
+#finder{display:none;padding-top:22px}.finder-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 18px}.finder-topbar .small{font-size:12px;color:var(--muted);font-weight:750}.finder-shell{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 16px 44px rgba(63,43,28,.06)}.progress{height:8px;background:#e8e0d4;border-radius:999px;overflow:hidden;margin-bottom:22px}.progress>div{height:100%;background:linear-gradient(90deg,var(--accent-dark),#6d8b79);width:12.5%;transition:.25s}.quiz-side{position:sticky;top:88px}.side-card{background:linear-gradient(155deg,#fffdf9,#edf3ee);border:1px solid var(--line);border-radius:22px;padding:20px}.side-card strong{display:block;font-family:Georgia,serif;font-size:24px;font-weight:500;margin-bottom:8px}.side-card p{font-size:12px;line-height:1.55;color:var(--muted);margin:0}.step{display:none}.step.active{display:block}.step h2{font-size:32px;margin:10px 0 8px}.hint{color:var(--muted);line-height:1.55;margin:0 0 18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.opt{display:block;border:1px solid var(--line);border-radius:17px;padding:16px;cursor:pointer;background:#fff;transition:.16s;line-height:1.35}.opt:hover{border-color:rgba(78,107,89,.35);transform:translateY(-1px)}.opt:has(input:checked){border-color:rgba(78,107,89,.55);background:#f0f5f1;box-shadow:0 10px 22px rgba(78,107,89,.08)}.opt input{margin-right:9px}.error{display:none;color:#9a3737;font-size:13px;margin-top:12px}.quiz-actions{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+.results{display:none;padding-top:24px}.results.show{display:block}.results-head{padding:28px 0 12px}.results-head h1{max-width:820px}.summary-card{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 22px}.summary-box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}.summary-box strong{display:block;font-size:13px;color:var(--muted);margin-bottom:8px}.summary-value{font-family:Georgia,serif;font-size:34px;line-height:1;color:var(--accent-dark)}.summary-box p{font-size:12px;line-height:1.5;color:var(--muted);margin:10px 0 0}
+.result-card{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;margin:15px 0;box-shadow:0 18px 48px rgba(63,43,28,.07)}.result-visual{min-height:260px;border-radius:20px;background:linear-gradient(145deg,#e7eee8,#fff8ed);display:flex;flex-direction:column;justify-content:space-between;padding:20px}.result-visual .lamp-symbol{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:#fff;color:var(--accent-dark);font-weight:900;font-size:22px;box-shadow:0 12px 28px rgba(63,43,28,.08)}.result-visual strong{font-family:Georgia,serif;font-weight:500;font-size:28px;line-height:1.05}.badge{display:inline-flex;background:var(--accent2);color:var(--accent-dark);font-weight:850;border-radius:999px;padding:7px 10px;font-size:12px}.result-card h3{font-size:30px;margin:9px 0 6px}.result-card .desc{color:var(--muted);line-height:1.58;font-size:14px;margin:0}.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}.fact{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fbfaf7}.fact b{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}.fact span{font-size:13px;font-weight:800}.reasons{list-style:none;margin:16px 0 0;padding:0}.reasons li{padding:5px 0;font-size:13px;line-height:1.45}.reasons li:before{content:"✓";font-weight:900;color:var(--accent);margin-right:8px}.offer-placeholder{margin-top:16px;padding:15px;border-radius:16px;background:#f7f9f7;border:1px solid rgba(78,107,89,.12)}.offer-placeholder strong{display:block;font-size:14px;margin-bottom:5px}.offer-placeholder span{font-size:11px;line-height:1.5;color:var(--muted)}
+.footer{padding:36px 0 10px;color:var(--muted);font-size:12px}.footer a{text-decoration:none;font-weight:750;margin-right:12px}.footer a:hover{text-decoration:underline}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.finder-shell{grid-template-columns:1fr}.quiz-side{position:static}.result-card{grid-template-columns:1fr}.result-visual{min-height:190px}.facts{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.wrap{padding:0 16px 42px}.site-header{position:relative;top:auto;margin-top:8px}.platform-nav a:nth-child(2){display:none}.hero{padding:36px 0 32px;gap:20px}.hero-visual{min-height:350px;padding:14px;gap:10px}.light-card{padding:15px}.light-card h3{font-size:19px}.trust-strip,.steps-grid,.summary-card{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.card{padding:18px}.finder-topbar{align-items:flex-start}.facts{grid-template-columns:1fr 1fr}.result-card{padding:14px}.result-card h3{font-size:25px}h1{font-size:clamp(44px,12vw,58px)}.actions{display:grid}.actions>*{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a>
+  <nav class="platform-nav"><a href="../index.html">Start</a><a href="../wohnen-licht/index.html">Wohnen & Licht</a><a href="../index.html#finder">Alle Finder</a></nav>
+</header>
+<nav class="breadcrumb"><a href="../index.html">WohnPlanbar</a><span>›</span><a href="../wohnen-licht/index.html">Wohnen & Licht</a><span>›</span><strong>Lampen-Finder</strong></nav>
+
+<main id="landing">
+<section class="hero">
+  <div>
+    <span class="eyebrow">Lampen-Finder</span>
+    <h1>Welche Beleuchtung passt wirklich zu deinem Raum?</h1>
+    <p class="lead">Nicht nur „schön“ oder „hell“: WohnPlanbar berücksichtigt Raumgröße, Nutzung, gewünschte Lichtwirkung, Bedienung und Stil und leitet daraus eine passende Lichtlösung ab.</p>
+    <div class="actions"><button class="primary start-finder">Jetzt Finder starten</button><a class="secondary btn" href="#so-funktionierts">So funktioniert’s</a></div>
+  </div>
+  <aside class="hero-visual">
+    <div class="light-card big"><div class="lamp-icon">L</div><div><strong>Raum + Nutzung</strong><h3>Technik passend ableiten</h3><p>Aus Größe und Nutzung entstehen sinnvolle Richtwerte für Helligkeit und Lichtfarbe.</p></div></div>
+    <div class="light-card"><div class="lamp-icon">K</div><div><h3>Lichtfarbe</h3><p>Warm, neutral oder flexibel – passend zum Raum.</p></div></div>
+    <div class="light-card"><div class="lamp-icon">S</div><div><h3>Smart & Dimmbar</h3><p>Nur wenn du es wirklich brauchst.</p></div></div>
+  </aside>
+</section>
+
+<section class="trust-strip">
+  <div class="trust-item"><strong>Keine erfundenen Produkte</strong><span>Der Finder empfiehlt zunächst Lichtarten und technische Zielwerte.</span></div>
+  <div class="trust-item"><strong>Nachvollziehbare Richtwerte</strong><span>Lumen und Farbtemperatur werden aus deinen Angaben abgeleitet.</span></div>
+  <div class="trust-item"><strong>Awin-ready</strong><span>Echte Produktangebote können später über passende Merkmale angebunden werden.</span></div>
+</section>
+
+<section class="section" id="so-funktionierts">
+  <span class="eyebrow">So funktioniert WohnPlanbar</span>
+  <h2>Vom Raum zur passenden Lichtlösung.</h2>
+  <p class="section-copy">Du beschreibst deinen Raum und deine Gewohnheiten. Daraus leitet der Finder eine primäre Lösung, eine Alternative und eine sinnvolle Ergänzung ab.</p>
+  <div class="steps-grid">
+    <article class="step-card"><div class="step-no">1</div><h3>Raum verstehen</h3><p>Raumart, Größe und Nutzung bestimmen zuerst den Lichtbedarf.</p></article>
+    <article class="step-card"><div class="step-no">2</div><h3>Wirkung festlegen</h3><p>Lichtfarbe, Dimmung, Smart-Funktionen und Stil schärfen die Auswahl.</p></article>
+    <article class="step-card"><div class="step-no">3</div><h3>Lösung erhalten</h3><p>Du bekommst Lampentyp, Lumen-Richtwert, Kelvin-Bereich und sinnvolle Funktionen.</p></article>
+  </div>
+</section>
+
+<section class="cta-panel"><h2>Bereit für deine Lichtempfehlung?</h2><p>Acht kurze Fragen reichen für eine belastbare Richtung. Echte Produkte hängen wir später an die technischen Zielwerte.</p><button class="primary start-finder">Lampen-Finder starten</button></section>
+</main>
+
+<section id="finder">
+  <div class="finder-topbar"><a class="secondary btn" href="../wohnen-licht/index.html">← Wohnen & Licht</a><div class="small">Lampen-Finder · 8 Fragen</div></div>
+  <div class="finder-shell">
+    <div class="card">
+      <div class="progress"><div id="bar"></div></div>
+      <form id="quiz">
+        <div class="step active" data-step="1">
+          <div class="kicker">Frage 1 von 8</div><h2>Für welchen Raum suchst du Licht?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="room" value="living"> Wohnzimmer</label>
+            <label class="opt"><input type="radio" name="room" value="dining"> Essbereich</label>
+            <label class="opt"><input type="radio" name="room" value="bedroom"> Schlafzimmer</label>
+            <label class="opt"><input type="radio" name="room" value="kitchen"> Küche</label>
+            <label class="opt"><input type="radio" name="room" value="office"> Arbeitszimmer</label>
+            <label class="opt"><input type="radio" name="room" value="hall"> Flur / Eingangsbereich</label>
+          </div>
+        </div>
+        <div class="step" data-step="2">
+          <div class="kicker">Frage 2 von 8</div><h2>Wie groß ist der Raum ungefähr?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="size" value="8"> Bis 10 m²</label>
+            <label class="opt"><input type="radio" name="size" value="15"> 10–20 m²</label>
+            <label class="opt"><input type="radio" name="size" value="25"> 20–30 m²</label>
+            <label class="opt"><input type="radio" name="size" value="35"> Über 30 m²</label>
+          </div>
+        </div>
+        <div class="step" data-step="3">
+          <div class="kicker">Frage 3 von 8</div><h2>Was soll das Licht hauptsächlich leisten?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="purpose" value="general"> Gute Grundbeleuchtung</label>
+            <label class="opt"><input type="radio" name="purpose" value="cozy"> Gemütliche Atmosphäre</label>
+            <label class="opt"><input type="radio" name="purpose" value="task"> Konzentriertes Arbeitslicht</label>
+            <label class="opt"><input type="radio" name="purpose" value="mixed"> Flexibel für mehrere Situationen</label>
+          </div>
+        </div>
+        <div class="step" data-step="4">
+          <div class="kicker">Frage 4 von 8</div><h2>Welche Lampenart kommt grundsätzlich infrage?</h2>
+          <p class="hint">Wenn du offen bist, entscheidet der Finder stärker nach Raum und Nutzung.</p>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="mount" value="open"> Offen – Hauptsache passend</label>
+            <label class="opt"><input type="radio" name="mount" value="ceiling"> Deckenleuchte / Panel</label>
+            <label class="opt"><input type="radio" name="mount" value="pendant"> Pendelleuchte</label>
+            <label class="opt"><input type="radio" name="mount" value="spots"> Spots / Schienensystem</label>
+            <label class="opt"><input type="radio" name="mount" value="floor"> Steh- / Tischleuchte</label>
+          </div>
+        </div>
+        <div class="step" data-step="5">
+          <div class="kicker">Frage 5 von 8</div><h2>Welche Lichtwirkung magst du?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="temp" value="warm"> Sehr warm & gemütlich</label>
+            <label class="opt"><input type="radio" name="temp" value="balanced"> Warm, aber klar</label>
+            <label class="opt"><input type="radio" name="temp" value="neutral"> Neutral & funktional</label>
+            <label class="opt"><input type="radio" name="temp" value="tunable"> Je nach Situation verstellbar</label>
+          </div>
+        </div>
+        <div class="step" data-step="6">
+          <div class="kicker">Frage 6 von 8</div><h2>Wie wichtig ist dir Dimmen?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="dimming" value="no"> Nicht wichtig</label>
+            <label class="opt"><input type="radio" name="dimming" value="nice"> Wäre gut</label>
+            <label class="opt"><input type="radio" name="dimming" value="must"> Muss dimmbar sein</label>
+          </div>
+        </div>
+        <div class="step" data-step="7">
+          <div class="kicker">Frage 7 von 8</div><h2>Wie wichtig sind Smart-Funktionen?</h2>
+          <div class="grid">
+            <label class="opt"><input type="radio" name="smart" value="no"> Brauche ich nicht</label>
+            <label class="opt"><input type="radio" name="smart" value="optional"> Wäre nett</label>
+            <label class="opt"><input type="radio" name="smart" value="must"> App / Sprachsteuerung wichtig</label>
+          </div>
+        </div>
+        <div class="step" data-step="8">
+          <div class="kicker">Frage 8 von 8</div><h2>Was ist dir besonders wichtig?</h2>
+          <p class="hint">Wähle höchstens zwei Punkte.</p>
+          <div class="grid" id="priorities">
+            <label class="opt"><input type="checkbox" name="priority" value="design"> Design</label>
+            <label class="opt"><input type="checkbox" name="priority" value="brightness"> Viel Helligkeit</label>
+            <label class="opt"><input type="checkbox" name="priority" value="efficiency"> Energieeffizienz</label>
+            <label class="opt"><input type="checkbox" name="priority" value="quality"> Gute Farbwiedergabe</label>
+            <label class="opt"><input type="checkbox" name="priority" value="flexibility"> Flexible Lichtstimmung</label>
+            <label class="opt"><input type="checkbox" name="priority" value="value"> Preis-Leistung</label>
+          </div>
+          <div class="error" id="priorityError">Bitte höchstens zwei Punkte wählen.</div>
+        </div>
+        <div class="error" id="stepError">Bitte zuerst eine Auswahl treffen.</div>
+        <div class="quiz-actions"><button type="button" class="secondary" id="back" style="visibility:hidden">Zurück</button><button type="button" class="primary" id="next">Weiter</button></div>
+      </form>
+    </div>
+    <aside class="quiz-side"><div class="side-card"><strong>Licht ist mehr als Lumen.</strong><p>Raumgröße liefert nur einen Richtwert. Nutzung, Oberflächen, mehrere Lichtquellen und persönliche Wahrnehmung beeinflussen den tatsächlichen Bedarf.</p></div></aside>
+  </div>
+</section>
+
+<section id="results" class="results">
+  <div id="resultsTop" class="results-head"><span class="eyebrow">Dein Ergebnis</span><h1>Diese Lichtlösung passt am besten zu deinen Angaben.</h1><p class="lead">Die Werte sind bewusst als Richtbereich angegeben. Für konkrete Produkte werden später passende Merkmale aus freigegebenen Partnerdaten abgeglichen.</p></div>
+  <div class="summary-card"><div class="summary-box"><strong>Empfohlene Gesamt-Helligkeit</strong><div class="summary-value" id="lumenSummary">–</div><p>Richtwert für die Grundbeleuchtung des angegebenen Raums.</p></div><div class="summary-box"><strong>Empfohlene Lichtfarbe</strong><div class="summary-value" id="kelvinSummary">–</div><p id="kelvinNote">–</p></div></div>
+  <div id="resultList"></div>
+  <div class="card" style="margin-top:20px"><strong>Nächster Schritt</strong><p class="hint" style="margin-top:8px">Wenn echte Produktfeeds angebunden sind, können hier Lampen nach diesen technischen Zielwerten gefiltert und mit Preisen/Partnerlinks angezeigt werden.</p><div class="actions"><button class="secondary" id="resultHome">Zur Lampen-Seite</button><button class="primary" id="restart">Finder neu starten</button></div></div>
+</section>
+
+<div class="footer">WohnPlanbar · Lampen-Finder · <a href="../impressum/index.html">Impressum</a><a href="../datenschutz/index.html">Datenschutz</a></div>
+</div>
+
+<script>
+if("scrollRestoration" in history)history.scrollRestoration="manual";
+window.addEventListener("pageshow",()=>requestAnimationFrame(()=>window.scrollTo(0,0)));
+const landing=document.getElementById("landing"),finder=document.getElementById("finder"),results=document.getElementById("results");
+const steps=[...document.querySelectorAll(".step")],bar=document.getElementById("bar"),next=document.getElementById("next"),back=document.getElementById("back");
+let step=1;const total=8;
+
+function topNow(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0)}
+function openFinder(){landing.style.display="none";results.classList.remove("show");finder.style.display="block";step=1;showStep();topNow()}
+document.querySelectorAll(".start-finder").forEach(b=>b.addEventListener("click",openFinder));
+
+function showStep(){
+  steps.forEach(s=>s.classList.toggle("active",Number(s.dataset.step)===step));
+  bar.style.width=(step/total*100)+"%";
+  back.style.visibility=step===1?"hidden":"visible";
+  next.textContent=step===total?"Ergebnis anzeigen":"Weiter";
+  document.getElementById("stepError").style.display="none";
+  topNow();
+}
+function checked(name){return document.querySelector('input[name="'+name+'"]:checked')}
+function valid(){
+  const names=["room","size","purpose","mount","temp","dimming","smart"];
+  if(step<=7 && !checked(names[step-1])) return false;
+  if(step===8){
+    const c=[...document.querySelectorAll('input[name="priority"]:checked')];
+    return c.length<=2;
+  }
+  return true;
+}
+document.querySelectorAll('input[name="priority"]').forEach(i=>i.addEventListener("change",()=>{
+  const c=[...document.querySelectorAll('input[name="priority"]:checked')];
+  document.getElementById("priorityError").style.display=c.length>2?"block":"none";
+  if(c.length>2)i.checked=false;
+}));
+next.addEventListener("click",()=>{
+  if(!valid()){document.getElementById("stepError").style.display="block";return}
+  if(step<total){step++;showStep()}else renderResults();
+});
+back.addEventListener("click",()=>{if(step>1){step--;showStep()}});
+
+const roomData={
+  living:{name:"Wohnzimmer",lux:[120,180]},
+  dining:{name:"Essbereich",lux:[150,220]},
+  bedroom:{name:"Schlafzimmer",lux:[100,150]},
+  kitchen:{name:"Küche",lux:[250,350]},
+  office:{name:"Arbeitszimmer",lux:[300,500]},
+  hall:{name:"Flur / Eingangsbereich",lux:[100,150]}
+};
+const archetypes=[
+  {id:"ceiling",name:"Deckenleuchte / LED-Panel",symbol:"D",desc:"Eine gleichmäßige, unkomplizierte Grundbeleuchtung. Besonders sinnvoll, wenn der Raum zuverlässig hell werden soll.",base:{living:8,dining:6,bedroom:7,kitchen:10,office:9,hall:10},purp:{general:10,cozy:5,task:8,mixed:9}},
+  {id:"pendant",name:"Pendelleuchte",symbol:"P",desc:"Gerichtetes, wohnliches Licht mit starker gestalterischer Wirkung – ideal über Esstisch, Insel oder Sitzbereich.",base:{living:6,dining:10,bedroom:5,kitchen:8,office:5,hall:3},purp:{general:6,cozy:9,task:7,mixed:7}},
+  {id:"spots",name:"Spots / Schienensystem",symbol:"S",desc:"Flexibel ausrichtbar und gut für Zonen, Bilder, Arbeitsflächen oder größere Räume mit unterschiedlichen Nutzungen.",base:{living:9,dining:7,bedroom:6,kitchen:10,office:8,hall:8},purp:{general:8,cozy:7,task:9,mixed:10}},
+  {id:"floor",name:"Steh- oder Tischleuchte",symbol:"F",desc:"Ideal als wohnliche Zusatz- und Zonenbeleuchtung. Für reine Grundbeleuchtung meist besser mit einer zweiten Lichtquelle kombinieren.",base:{living:10,dining:5,bedroom:9,kitchen:2,office:7,hall:4},purp:{general:3,cozy:10,task:7,mixed:7}},
+  {id:"smart",name:"Smart-Deckenleuchte",symbol:"C",desc:"Eine flexible Hauptleuchte mit Dimmung und variabler Lichtfarbe. Besonders sinnvoll, wenn sich der Raum häufig unterschiedlich anfühlen soll.",base:{living:9,dining:7,bedroom:8,kitchen:8,office:9,hall:6},purp:{general:9,cozy:8,task:8,mixed:10}}
+];
+
+function answers(){
+  return {
+    room:checked("room").value,
+    size:Number(checked("size").value),
+    purpose:checked("purpose").value,
+    mount:checked("mount").value,
+    temp:checked("temp").value,
+    dimming:checked("dimming").value,
+    smart:checked("smart").value,
+    priorities:[...document.querySelectorAll('input[name="priority"]:checked')].map(x=>x.value)
+  };
+}
+function lightTarget(a){
+  let [lo,hi]=roomData[a.room].lux;
+  if(a.purpose==="cozy"){lo*=.75;hi*=.85}
+  if(a.purpose==="task"){lo*=1.15;hi*=1.2}
+  if(a.purpose==="mixed"){hi*=1.1}
+  if(a.priorities.includes("brightness")){lo*=1.1;hi*=1.15}
+  return [Math.round(lo*a.size/50)*50,Math.round(hi*a.size/50)*50];
+}
+function kelvin(a){
+  if(a.temp==="warm") return {range:"2.200–2.700 K",note:"Sehr warm und wohnlich – besonders angenehm am Abend."};
+  if(a.temp==="balanced") return {range:"2.700–3.000 K",note:"Warmweiß mit etwas mehr Klarheit für den Alltag."};
+  if(a.temp==="neutral") return {range:"3.500–4.000 K",note:"Neutralweiß – sinnvoll für Küche, Arbeit und funktionale Bereiche."};
+  return {range:"2.200–4.000 K",note:"Tunable White: je nach Tageszeit und Nutzung verstellbar."};
+}
+function scoreType(t,a){
+  let s=(t.base[a.room]||5)*5+(t.purp[a.purpose]||5)*4;
+  if(a.mount!=="open"){
+    const map={ceiling:"ceiling",pendant:"pendant",spots:"spots",floor:"floor"};
+    if(map[a.mount]===t.id)s+=22;else s-=5;
+  }
+  if(a.smart==="must"){s+=t.id==="smart"?25:(t.id==="spots"?6:-8)}
+  if(a.smart==="no" && t.id==="smart")s-=10;
+  if(a.dimming==="must"){s+=["smart","ceiling","spots"].includes(t.id)?8:2}
+  if(a.priorities.includes("design"))s+=["pendant","floor","spots"].includes(t.id)?8:1;
+  if(a.priorities.includes("flexibility"))s+=["smart","spots"].includes(t.id)?10:2;
+  if(a.priorities.includes("value"))s+=["ceiling","pendant"].includes(t.id)?6:1;
+  if(a.priorities.includes("efficiency"))s+=["ceiling","smart"].includes(t.id)?7:2;
+  return s;
+}
+function factsHtml(a,type){
+  const lum=lightTarget(a),k=kelvin(a);
+  const cri=a.priorities.includes("quality")?"CRI ≥ 90":"CRI ≥ 80";
+  const dim=a.dimming==="must"?"Ja, zwingend":a.dimming==="nice"?"Empfohlen":"Optional";
+  const smart=a.smart==="must"?"App/Voice erforderlich":a.smart==="optional"?"Optional sinnvoll":"Nicht nötig";
+  return `
+    <div class="facts">
+      <div class="fact"><b>Helligkeit</b><span>${lum[0].toLocaleString("de-DE")}–${lum[1].toLocaleString("de-DE")} lm</span></div>
+      <div class="fact"><b>Lichtfarbe</b><span>${k.range}</span></div>
+      <div class="fact"><b>Farbwiedergabe</b><span>${cri}</span></div>
+      <div class="fact"><b>Dimmung</b><span>${dim}</span></div>
+      <div class="fact"><b>Smart</b><span>${smart}</span></div>
+      <div class="fact"><b>Raum</b><span>${roomData[a.room].name}</span></div>
+    </div>`;
+}
+function reasons(type,a){
+  const r=[];
+  if((type.base[a.room]||0)>=8)r.push("passt konstruktiv gut zu "+roomData[a.room].name);
+  if((type.purp[a.purpose]||0)>=8)r.push("unterstützt deine gewünschte Lichtnutzung besonders gut");
+  if(a.mount!=="open" && type.id===a.mount)r.push("entspricht direkt deiner gewünschten Lampenart");
+  if(a.smart==="must" && type.id==="smart")r.push("liefert die gewünschten Smart- und Szenenfunktionen");
+  if(a.priorities.includes("design") && ["pendant","floor","spots"].includes(type.id))r.push("bietet viel gestalterischen Spielraum");
+  if(a.priorities.includes("flexibility") && ["smart","spots"].includes(type.id))r.push("ist für wechselnde Lichtstimmungen besonders flexibel");
+  if(!r.length)r.push("bildet aus deinen Angaben die ausgewogenste Gesamt-Lösung");
+  return r.slice(0,4);
+}
+function resultCard(role,type,a){
+  const lum=lightTarget(a);
+  return `<article class="result-card">
+    <div class="result-visual"><div class="lamp-symbol">${type.symbol}</div><div><strong>${type.name}</strong><div style="margin-top:8px;font-size:12px;color:#74675e">${lum[0].toLocaleString("de-DE")}–${lum[1].toLocaleString("de-DE")} lm als Gesamt-Richtwert</div></div></div>
+    <div><span class="badge">${role}</span><h3>${type.name}</h3><p class="desc">${type.desc}</p>
+      ${factsHtml(a,type)}
+      <ul class="reasons">${reasons(type,a).map(x=>"<li>"+x+"</li>").join("")}</ul>
+      <div class="offer-placeholder"><strong>Passende Produkte folgen</strong><span>Später können hier echte Lampen mit passenden Lumen-, Kelvin-, Dimm- und Smart-Merkmalen aus freigegebenen Produktfeeds erscheinen. Aktuell zeigen wir bewusst keine erfundenen Artikel oder Preise.</span></div>
+    </div>
+  </article>`;
+}
+function renderResults(){
+  const a=answers();
+  const ranked=archetypes.map(t=>({t,score:scoreType(t,a)})).sort((x,y)=>y.score-x.score);
+  const main=ranked[0].t,alt=ranked.find(x=>x.t.id!==main.id).t;
+  let extra=ranked.find(x=>x.t.id!==main.id&&x.t.id!==alt.id).t;
+  if(main.id!=="floor" && a.purpose!=="task" && a.room!=="kitchen") extra=archetypes.find(x=>x.id==="floor")||extra;
+  const lum=lightTarget(a),k=kelvin(a);
+  document.getElementById("lumenSummary").textContent=lum[0].toLocaleString("de-DE")+"–"+lum[1].toLocaleString("de-DE")+" lm";
+  document.getElementById("kelvinSummary").textContent=k.range;
+  document.getElementById("kelvinNote").textContent=k.note;
+  document.getElementById("resultList").innerHTML=resultCard("Beste Gesamt-Lösung",main,a)+resultCard("Sinnvolle Alternative",alt,a)+resultCard("Ergänzende Lichtquelle",extra,a);
+  finder.style.display="none";landing.style.display="none";results.classList.add("show");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{topNow();document.getElementById("resultsTop").scrollIntoView({block:"start",behavior:"auto"})}));
+}
+document.getElementById("restart").addEventListener("click",()=>{document.getElementById("quiz").reset();step=1;results.classList.remove("show");finder.style.display="block";showStep()});
+document.getElementById("resultHome").addEventListener("click",()=>{results.classList.remove("show");finder.style.display="none";landing.style.display="block";topNow()});
+</script>
+</body>
+</html>
