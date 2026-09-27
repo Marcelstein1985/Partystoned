@@ -169,6 +169,19 @@ img{display:block;max-width:100%}
   }
 }
 
+
+/* WP desktop media normalization v2 */
+img{display:block;max-width:100%}
+@media(min-width:901px){
+.hero{align-items:stretch!important}
+.hero-board.with-photo,.hero-board,.hero-img,.hero-media,.premium-hero-media,.hero-visual{min-height:390px!important;max-height:440px!important;height:auto!important;overflow:hidden!important}
+.hero-board-photo,.hero-img>img,.hero-media>img,.premium-hero-media>img,.board-image>img,.lamp-photo>img{width:100%!important;height:100%!important;min-height:390px!important;max-height:440px!important;object-fit:cover!important;object-position:center!important}
+.board-image,.lamp-photo{min-height:390px!important;max-height:440px!important;overflow:hidden!important}
+.finder-thumb,.category-photo{height:auto!important;aspect-ratio:16/10!important;overflow:hidden!important}
+.finder-thumb>img,.category-photo>img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+.finder-card,.category{height:100%!important}
+}
+@media(min-width:1200px){.hero-board.with-photo,.hero-board,.hero-img,.hero-media,.premium-hero-media,.hero-visual,.hero-board-photo,.hero-img>img,.hero-media>img,.premium-hero-media>img,.board-image,.board-image>img,.lamp-photo,.lamp-photo>img{min-height:410px!important;max-height:450px!important}}
 </style>
 </head>
 <body>
