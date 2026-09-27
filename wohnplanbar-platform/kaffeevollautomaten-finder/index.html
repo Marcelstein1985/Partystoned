@@ -874,9 +874,29 @@ body:after{
   .offer-link{grid-column:1/-1;width:100%}
 }
 
+
+/* ===== V4 publish-ready result polish ===== */
+.result-section-title{
+  margin-top:16px;margin-bottom:7px;font-size:11px;font-weight:900;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted)
+}
+.result-card .reasons{margin-top:0}
+.tech-fact span,.result-card .small,.source-link,.offer-empty,.offer-note{overflow-wrap:anywhere}
+.result-card[data-fit-tier="perfect"]{border-color:rgba(78,107,89,.28);box-shadow:0 22px 62px rgba(43,74,59,.10)}
+.result-card[data-fit-tier="strong"]{border-color:rgba(78,107,89,.18)}
+.results-qa-note{display:none}
+@media(max-width:640px){
+  #results{padding-bottom:max(150px,calc(env(safe-area-inset-bottom) + 120px))}
+  #results .result-card{margin:12px 0 18px}
+  .result-section-title{margin-top:14px}
+  .source-link{display:inline-flex;min-height:40px;align-items:center}
+  .meta{gap:6px}.pill{font-size:11px;padding:6px 8px}
+  .offer-box{margin-top:14px}
+}
+
 </style>
 </head>
-<body data-build="coffee-finder-v4-awin-ready-offers">
+<body data-build="coffee-finder-v5-tracking-mobile-qa">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1131,6 +1151,53 @@ body:after{
 </div>
 
 <script>
+// Privacy-first analytics preparation.
+// No analytics endpoint, pixel or external request is active in this prototype.
+const wpTracking={
+  version:"coffee-finder-v1",
+  events:[],
+  externalConsent:false
+};
+
+function cleanTrackingValue(value){
+  if(Array.isArray(value)) return value.slice(0,10).map(cleanTrackingValue);
+  if(value && typeof value==="object"){
+    const out={};
+    Object.entries(value).slice(0,20).forEach(([k,v])=>out[String(k).slice(0,40)]=cleanTrackingValue(v));
+    return out;
+  }
+  if(typeof value==="string") return value.slice(0,120);
+  if(typeof value==="number" || typeof value==="boolean" || value===null) return value;
+  return String(value??"").slice(0,120);
+}
+
+function wpTrack(name,data={}){
+  const event={
+    event:String(name).slice(0,60),
+    finder:"kaffeevollautomaten",
+    version:wpTracking.version,
+    timestamp:new Date().toISOString(),
+    data:cleanTrackingValue(data)
+  };
+  wpTracking.events.push(event);
+  if(wpTracking.events.length>100) wpTracking.events.shift();
+
+  // Other code can listen locally without transmitting anything.
+  try{window.dispatchEvent(new CustomEvent("wohnplanbar:analytics",{detail:event}))}catch(e){}
+
+  // Future integration hook: only send to an already configured dataLayer after consent.
+  if(wpTracking.externalConsent===true && Array.isArray(window.dataLayer)){
+    window.dataLayer.push({event:"wp_"+event.event,...event.data});
+  }
+  return event;
+}
+
+window.WohnPlanbarTracking={
+  grantExternalConsent(){wpTracking.externalConsent=true},
+  revokeExternalConsent(){wpTracking.externalConsent=false},
+  getLocalEvents(){return wpTracking.events.slice()}
+};
+
 const products = [
   // Scores 0-10: coffee, milk, variety, beans, easy, clean, custom, cold, compact, smart, capacity
   {b:"De’Longhi",m:"Magnifica S",sku:"ECAM22.110.SB",p:349,verified:true,source:"https://www.delonghi.com/de-de/p/magnifica-s-ecam22.110.sb-magnifica-s-kaffeevollautomat/ECAM22.110.SB.html",tech:{drinks:"Espresso · Espresso Lungo · Heißwasser",milkSystem:"Klassischer manueller Milchaufschäumer",display:"Tasten + Drehregler",dimensions:"23 × 43 × 34 cm",tank:"1,8 l",beansText:"250 g Bohnenbehälter",profiles:"–",app:"Nein"},coffee:8,milk:3,variety:4,beans:2,easy:7,clean:8,custom:5,cold:0,compact:7,smart:0,capacity:6},
@@ -1187,6 +1254,7 @@ function openFinder(){
   results.classList.remove("show");
   finder.style.display="block";
   hardScrollToTop();
+  wpTrack("finder_start",{entry:"coffee_landing"});
 }
 function hardScrollToTop(){
   document.documentElement.scrollTop=0;
@@ -1215,6 +1283,7 @@ function openHome(){
   results.classList.remove("show");
   landing.style.display="block";
   hardScrollToTop();
+  wpTrack("finder_home",{from:results.classList.contains("show")?"results":"finder"});
 }
 document.querySelectorAll(".start-finder").forEach(btn=>btn.addEventListener("click",openFinder));
 document.getElementById("homeBtn").addEventListener("click",openHome);
@@ -1233,6 +1302,19 @@ function selected(name){
   const el=document.querySelector(`[name="${name}"]:checked`);
   return el?el.value:null;
 }
+function currentStepTrackingAnswer(stepNumber){
+  const names=["budget","drink","milk","usage","beans","compact","cold"];
+  if(stepNumber>=1 && stepNumber<=7){
+    const answer=selected(names[stepNumber-1]);
+    if(stepNumber===1) return {answer,budgetFlex:selected("budgetFlex")||"0"};
+    return {answer};
+  }
+  if(stepNumber===8){
+    return {answer:[...document.querySelectorAll('[name="priority"]:checked')].map(x=>x.value)};
+  }
+  return {};
+}
+
 function validate(){
   stepError.style.display="none";
   if(step<8){
@@ -1246,10 +1328,19 @@ function validate(){
   return checked.length<=2;
 }
 next.onclick=()=>{
-  if(!validate()) return;
+  if(!validate()){
+    wpTrack("finder_validation_error",{step});
+    return;
+  }
+  wpTrack("finder_step_complete",{step,...currentStepTrackingAnswer(step)});
   if(step<total){step++;showStep()} else calculate();
 };
-back.onclick=()=>{if(step>1){step--;showStep()}};
+back.onclick=()=>{
+  if(step>1){
+    wpTrack("finder_back",{fromStep:step,toStep:step-1});
+    step--;showStep();
+  }
+};
 
 document.querySelectorAll('input[type="radio"]').forEach(r=>r.addEventListener("change",()=>{stepError.style.display="none"}));
 
@@ -1518,7 +1609,8 @@ function techFactsHtml(p){
 function roleCard(role,item,a){
   const p=item.p, score=item.score;
   const compromises=item.compromises||compromisesFor(p,a);
-  return `<div class="result-card reveal">
+  const tier=score>=95?"perfect":score>=88?"strong":"standard";
+  return `<div class="result-card reveal" data-fit-tier="${tier}">
     <div class="wp-result-grid">
       <div class="wp-result-photo">
         ${productImage(p)
@@ -1536,11 +1628,11 @@ function roleCard(role,item,a){
           </div>
           <div><div class="score" data-score="${score}">0%</div><div class="fit-label">${fitLabel(score)}</div></div>
         </div>
-        <ul class="reasons">${reasons(p,a).map(x=>`<li>${x}</li>`).join("")}</ul>
+        <div class="result-section-title">Warum passt es?</div><ul class="reasons">${reasons(p,a).map(x=>`<li>${x}</li>`).join("")}</ul>
         ${compromises.length ? `<div class="compromise-list"><strong>Das solltest du wissen:</strong>${compromises.map(x=>`<div>• ${x}</div>`).join("")}</div>` : ""}
-        ${techFactsHtml(p)}
+        ${p.tech?`<div class="result-section-title">Technische Eckdaten</div>`:""}${techFactsHtml(p)}
         ${p.source?`<a class="source-link" href="${p.source}" target="_blank" rel="noopener">Herstellerdaten ansehen ↗</a>`:""}
-        <div class="meta">
+        <div class="result-section-title">Bewertung im Finder</div><div class="meta">
           <span class="pill">Kaffee ${p.coffee}/10</span>
           <span class="pill">Milch ${p.milk}/10</span>
           <span class="pill">Vielfalt ${p.variety}/10</span>
@@ -1712,10 +1804,29 @@ function calculate(){
   status.innerHTML=statusHtml;
   status.classList.toggle("show",!!statusHtml);
 
+  const altRole=a.priorities.includes("smart") && !hasSmartExact && alt.p.smart>=6 ? "Smart-Alternative" : "Sinnvolle Alternative";
   document.getElementById("resultList").innerHTML =
     roleCard("Beste Gesamt-Empfehlung",best,a)+
     roleCard(valueRole,value,a)+
-    roleCard(a.priorities.includes("smart") && !hasSmartExact && alt.p.smart>=6 ? "Smart-Alternative" : "Sinnvolle Alternative",alt,a);
+    roleCard(altRole,alt,a);
+
+  wpTrack("finder_complete",{
+    budget:a.budget,
+    budgetFlex:a.budgetFlex,
+    drink:a.drink,
+    milk:a.milk,
+    usage:a.usage,
+    beans:a.beans,
+    compact:a.compact,
+    cold:a.cold,
+    priorities:a.priorities,
+    exactMatches:exactCount,
+    results:[
+      {role:"best",sku:best.p.sku,brand:best.p.b,model:best.p.m,score:best.score},
+      {role:"value",sku:value.p.sku,brand:value.p.b,model:value.p.m,score:value.score},
+      {role:"alternative",sku:alt.p.sku,brand:alt.p.b,model:alt.p.m,score:alt.score}
+    ]
+  });
 
   finder.style.display="none";
   landing.style.display="none";
@@ -1723,9 +1834,11 @@ function calculate(){
   forceResultsTop();
   initMotionReveals();
   animateScores();
+  requestAnimationFrame(()=>requestAnimationFrame(checkHorizontalOverflow));
 }
 
 document.getElementById("restart").onclick=()=>{
+  wpTrack("finder_restart",{});
   document.getElementById("quiz").reset();
   step=1;showStep();
   results.classList.remove("show");
@@ -1734,6 +1847,16 @@ document.getElementById("restart").onclick=()=>{
   requestAnimationFrame(()=>hardScrollToTop());
 };
 document.getElementById("resultHome").addEventListener("click",openHome);
+document.getElementById("resultList").addEventListener("click",e=>{
+  const link=e.target.closest(".offer-link");
+  if(!link) return;
+  const card=link.closest(".result-card");
+  wpTrack("affiliate_click",{
+    merchant:link.closest(".offer-row")?.querySelector(".offer-merchant b")?.textContent||"",
+    destination:new URL(link.href,location.href).hostname,
+    resultRole:card?.querySelector(".badge")?.textContent||""
+  });
+});
 showStep();
 
 // wohnplanbar-overflow-check: release guard
