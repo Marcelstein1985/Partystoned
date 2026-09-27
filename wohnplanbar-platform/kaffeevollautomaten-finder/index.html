@@ -832,9 +832,21 @@ body:after{
   .reasons{font-size:14px}
 }
 
+
+.fit-label{
+  margin-top:5px;font-size:11px;font-weight:800;line-height:1.25;
+  color:var(--accent-dark);text-align:right;max-width:120px
+}
+.score-note{
+  margin:12px 0 0;padding:11px 13px;border-radius:13px;
+  background:#f6f8f6;border:1px solid rgba(78,107,89,.10);
+  font-size:12px;line-height:1.45;color:var(--muted)
+}
+@media(max-width:640px){.fit-label{font-size:10px;max-width:100px}}
+
 </style>
 </head>
-<body data-build="coffee-finder-v1-budget-rules">
+<body data-build="coffee-finder-v2-relevant-fit">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -1071,7 +1083,7 @@ body:after{
     <div id="resultsTop" class="hero results-top-anchor">
       <div class="kicker">Dein Ergebnis</div>
       <h1>Diese Vollautomaten passen am besten zu dir.</h1>
-      <p class="lead">Die Platzierung entsteht aus deinen Anforderungen. Affiliate-Provisionen fließen nicht in den Fit-Score ein.</p>
+      <p class="lead">Die Platzierung entsteht aus deinen Anforderungen. 100 % bedeutet: Das Gerät erfüllt die für dich relevanten Kriterien vollständig. Nicht benötigte Funktionen werden nicht mitbewertet. Affiliate-Provisionen fließen nicht in den Fit-Score ein.</p>
     </div>
     <div id="resultStatus" class="result-status" aria-live="polite"></div>
     <div id="resultList"></div>
@@ -1224,48 +1236,96 @@ function allowedBudget(a){
   return Math.round(a.budget*(1+flex/100));
 }
 
-function fit(product, a){
-  // Harte Muss-Kriterien
-  if(product.p > allowedBudget(a)) return null;
-  if(a.milk==="auto" && product.milk<7) return null;
-  if(a.milk==="premium" && product.milk<8) return null;
-  if(a.beans==="dual" && product.beans<8) return null;
-  if(a.cold==="must" && product.cold<7) return null;
-  if(a.compact==="very" && product.compact<7) return null;
+function hardMatch(product,a){
+  if(product.p>allowedBudget(a)) return false;
+  if(a.milk==="auto" && product.milk<7) return false;
+  if(a.milk==="premium" && product.milk<8) return false;
+  if(a.beans==="dual" && product.beans<8) return false;
+  if(a.cold==="must" && product.cold<7) return false;
+  if(a.compact==="very" && product.compact<7) return false;
+  return true;
+}
 
-  let weights={coffee:14,milk:10,variety:10,beans:5,easy:10,clean:10,custom:8,cold:5,compact:8,smart:4,capacity:8,value:8};
+function targetScore(actual,target){
+  if(target<=0) return 10;
+  return Math.min(10,(actual/target)*10);
+}
 
-  if(a.drink==="black"){weights.coffee+=14;weights.milk-=6}
-  if(a.drink==="milk"){weights.milk+=15;weights.variety+=4}
-  if(a.drink==="mixed"){weights.variety+=12;weights.milk+=6}
-  if(a.drink==="cold"){weights.cold+=18;weights.variety+=5}
-  if(a.milk==="none"){weights.milk=0}
-  if(a.milk==="manual"){weights.milk=4}
-  if(a.milk==="auto"){weights.milk+=10}
-  if(a.milk==="premium"){weights.milk+=14;weights.clean+=5}
-  if(a.beans==="dual"){weights.beans+=20}
-  if(a.compact==="yes"){weights.compact+=8}
-  if(a.compact==="very"){weights.compact+=18}
-  if(a.cold==="nice"){weights.cold+=7}
-  if(a.cold==="must"){weights.cold+=18}
+function budgetFit(product,a){
+  if(product.p<=a.budget) return 10;
+  const max=allowedBudget(a);
+  if(product.p>max) return 0;
+  if(max<=a.budget) return 0;
+  const share=(product.p-a.budget)/(max-a.budget);
+  return Math.max(8,10-(share*2));
+}
+
+function buildFitCriteria(product,a){
+  const c=[];
+  const add=(key,actual,target,weight)=>c.push({key,actual,target,weight,score:targetScore(actual,target)});
+
+  // Budget is always relevant. Anything at or below the chosen budget receives full points.
+  c.push({key:"budget",weight:12,score:budgetFit(product,a)});
+
+  // Daily usage is always relevant, but more capacity than needed does not improve the fit further.
+  const targetCap=a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
+  add("capacity",product.capacity,targetCap,14);
+
+  // Only drink-related abilities the user actually needs are scored.
+  if(a.drink==="black"){
+    add("coffee",product.coffee,8,30);
+  } else if(a.drink==="milk"){
+    add("coffee",product.coffee,8,14);
+    add("milk",product.milk,8,26);
+    add("variety",product.variety,7,8);
+  } else if(a.drink==="mixed"){
+    add("coffee",product.coffee,8,14);
+    add("milk",product.milk,8,18);
+    add("variety",product.variety,8,18);
+  } else if(a.drink==="cold"){
+    add("coffee",product.coffee,7,10);
+    add("cold",product.cold,8,28);
+    add("variety",product.variety,7,12);
+  }
+
+  // Explicit milk preference.
+  if(a.milk==="manual") add("milk",product.milk,4,8);
+  if(a.milk==="auto") add("milk",product.milk,7,16);
+  if(a.milk==="premium") add("milk",product.milk,9,20);
+
+  // Only score special capabilities when the user asked for them.
+  if(a.beans==="dual") add("beans",product.beans,8,18);
+  if(a.compact==="yes") add("compact",product.compact,7,10);
+  if(a.compact==="very") add("compact",product.compact,9,18);
+  if(a.cold==="nice") add("cold",product.cold,5,8);
+  if(a.cold==="must") add("cold",product.cold,8,18);
 
   a.priorities.forEach(pr=>{
-    if(pr==="clean") weights.clean+=14;
-    if(pr==="easy") weights.easy+=14;
-    if(pr==="variety") weights.variety+=14;
-    if(pr==="custom") weights.custom+=14;
-    if(pr==="smart") weights.smart+=14;
-    if(pr==="value") weights.value+=18;
+    if(pr==="clean") add("clean",product.clean,8,13);
+    if(pr==="easy") add("easy",product.easy,8,13);
+    if(pr==="variety") add("variety",product.variety,8,13);
+    if(pr==="custom") add("custom",product.custom,8,13);
+    if(pr==="smart") add("smart",product.smart,8,15);
+    if(pr==="value"){
+      // Price-performance is only scored when the user explicitly prioritizes it.
+      const value=product.p<=a.budget?10:budgetFit(product,a);
+      c.push({key:"value",weight:15,score:value});
+    }
   });
 
-  const targetCap=a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
-  const capacityFit=Math.max(0,10-Math.abs(product.capacity-targetCap)*1.6);
-  const value=Math.min(10,(allowedBudget(a)/product.p)*7.5);
+  return c;
+}
 
-  const vals={coffee:product.coffee,milk:product.milk,variety:product.variety,beans:product.beans,easy:product.easy,clean:product.clean,custom:product.custom,cold:product.cold,compact:product.compact,smart:product.smart,capacity:capacityFit,value:value};
+function scoreRelevantCriteria(product,a){
+  const criteria=buildFitCriteria(product,a);
   let num=0,den=0;
-  for(const k in weights){if(weights[k]>0){num+=vals[k]*weights[k];den+=10*weights[k]}}
-  return Math.round((num/den)*100);
+  criteria.forEach(x=>{num+=x.score*x.weight;den+=10*x.weight});
+  return den?Math.round((num/den)*100):0;
+}
+
+function fit(product,a){
+  if(!hardMatch(product,a)) return null;
+  return scoreRelevantCriteria(product,a);
 }
 
 function reasons(p,a){
@@ -1312,43 +1372,30 @@ function compromisesFor(p,a){
 }
 
 function relaxedFit(product,a){
-  let weights={coffee:14,milk:10,variety:10,beans:5,easy:10,clean:10,custom:8,cold:5,compact:8,smart:4,capacity:8,value:8};
-  if(a.drink==="black"){weights.coffee+=14;weights.milk-=6}
-  if(a.drink==="milk"){weights.milk+=15;weights.variety+=4}
-  if(a.drink==="mixed"){weights.variety+=12;weights.milk+=6}
-  if(a.drink==="cold"){weights.cold+=18;weights.variety+=5}
-  if(a.milk==="none"){weights.milk=0}
-  if(a.milk==="manual"){weights.milk=4}
-  if(a.milk==="auto"){weights.milk+=10}
-  if(a.milk==="premium"){weights.milk+=14;weights.clean+=5}
-  if(a.beans==="dual"){weights.beans+=20}
-  if(a.compact==="yes"){weights.compact+=8}
-  if(a.compact==="very"){weights.compact+=18}
-  if(a.cold==="nice"){weights.cold+=7}
-  if(a.cold==="must"){weights.cold+=18}
-  a.priorities.forEach(pr=>{
-    if(pr==="clean") weights.clean+=14;
-    if(pr==="easy") weights.easy+=14;
-    if(pr==="variety") weights.variety+=14;
-    if(pr==="custom") weights.custom+=14;
-    if(pr==="smart") weights.smart+=18;
-    if(pr==="value") weights.value+=18;
-  });
-  const targetCap=a.usage<=3?5:a.usage<=6?7:a.usage<=10?9:10;
-  const capacityFit=Math.max(0,10-Math.abs(product.capacity-targetCap)*1.6);
-  const value=Math.min(10,(allowedBudget(a)/product.p)*7.5);
-  const vals={coffee:product.coffee,milk:product.milk,variety:product.variety,beans:product.beans,easy:product.easy,clean:product.clean,custom:product.custom,cold:product.cold,compact:product.compact,smart:product.smart,capacity:capacityFit,value};
-  let num=0,den=0;
-  for(const k in weights){if(weights[k]>0){num+=vals[k]*weights[k];den+=10*weights[k]}}
-  let score=(num/den)*100;
+  let score=scoreRelevantCriteria(product,a);
   const compromises=compromisesFor(product,a);
   compromises.forEach(x=>{
-    if(x.includes("maximal erlaubten Budgetgrenze")) score-=Math.min(18,Math.max(6,((product.p-allowedBudget(a))/Math.max(allowedBudget(a),1))*18));
-    else if(x.includes("Wunschbudget")) score-=3;
-    else if(x.includes("Smart")) score-=9;
-    else score-=12;
+    if(x.includes("maximal erlaubten Budgetgrenze")){
+      const over=(product.p-allowedBudget(a))/Math.max(allowedBudget(a),1);
+      score-=Math.min(22,Math.max(8,over*28));
+    } else if(x.includes("Wunschbudget")){
+      score-=3;
+    } else if(x.includes("Smart")){
+      score-=10;
+    } else {
+      score-=14;
+    }
   });
-  return Math.max(20,Math.round(score));
+  return Math.max(20,Math.min(100,Math.round(score)));
+}
+
+function fitLabel(score){
+  if(score>=100) return "Perfekter Treffer";
+  if(score>=95) return "Nahezu perfekt";
+  if(score>=88) return "Sehr starke Empfehlung";
+  if(score>=80) return "Gut passend";
+  if(score>=70) return "Mit Kompromissen";
+  return "Alternative";
 }
 
 function roleCard(role,item,a){
@@ -1370,7 +1417,7 @@ function roleCard(role,item,a){
             ${p.sku?`<div class="small"><strong>Modell:</strong> ${p.sku}${p.verified?" · Herstellerdaten geprüft":""}${productImage(p)?" · Modellfoto hinterlegt":""}</div>`:""}
             <div class="small">Interner Preisanker im Prototyp: ca. ${p.p.toLocaleString("de-DE")} € – später durch Live-Awin-Preis ersetzt.</div>
           </div>
-          <div class="score" data-score="${score}">0%</div>
+          <div><div class="score" data-score="${score}">0%</div><div class="fit-label">${fitLabel(score)}</div></div>
         </div>
         <ul class="reasons">${reasons(p,a).map(x=>`<li>${x}</li>`).join("")}</ul>
         ${compromises.length ? `<div class="compromise-list"><strong>Das solltest du wissen:</strong>${compromises.map(x=>`<div>• ${x}</div>`).join("")}</div>` : ""}
@@ -1380,7 +1427,7 @@ function roleCard(role,item,a){
           <span class="pill">Vielfalt ${p.variety}/10</span>
           <span class="pill">Reinigung ${p.clean}/10</span>
         </div>
-        <div class="pricebox"><strong>Angebote vergleichen</strong><br><span class="small">Hier erscheinen später verfügbare Awin-Händler mit Livepreis und Deeplink.</span></div>
+        <div class="pricebox"><strong>Angebote vergleichen</strong><br><span class="small">Hier erscheinen später verfügbare Awin-Händler mit Livepreis und Deeplink.</span></div><div class="score-note">Der Fit-Score bewertet nur die Eigenschaften, die zu deinen Antworten wirklich relevant sind. Nicht benötigte Funktionen verschlechtern den Score nicht.</div>
       </div>
     </div>
   </div>`;
