@@ -764,7 +764,7 @@ window.WP_CATEGORY_SCHEMAS = {
       "ipRating", "energyClass", "widthMm", "heightMm", "depthMm"
     ]
   },
-  airfryer: {\n    matchFields: ["ean", "brand", "model"],\n    attributes: ["capacityL", "basketCount", "dualZone", "powerW", "temperatureMinC", "temperatureMaxC", "programs", "dishwasherSafe", "smart", "widthMm", "heightMm", "depthMm"]\n  },\n  saugroboter: {
+  airfryer: {\n    matchFields: ["ean", "brand", "model"],\n    attributes: ["capacityL", "basketCount", "dualZone", "powerW", "temperatureMinC", "temperatureMaxC", "programs", "dishwasherSafe", "smart", "widthMm", "heightMm", "depthMm"]\n  },\n  matratzen: {\n    matchFields: ["ean", "brand", "model"],\n    attributes: ["material", "construction", "heightCm", "firmness", "maxWeightKg", "sleepPositions", "coverRemovable", "coverWashC", "zones", "breathability", "partnerSuitable", "widthCm", "lengthCm"]\n  },\n  saugroboter: {
     matchFields: ["ean", "brand", "model"],
     attributes: [
       "areaMaxM2", "navigation", "obstacleAvoidance", "carpetDetection",
