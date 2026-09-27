@@ -795,7 +795,7 @@ body:after{
 @media(max-width:640px){.budget-flex-grid{grid-template-columns:1fr}}
 
 
-.results-top-anchor{height:1px;width:100%;scroll-margin-top:18px}
+.results-top-anchor{scroll-margin-top:18px}
 @media(min-width:641px){.results-top-anchor{scroll-margin-top:92px}}
 
 </style>
@@ -897,8 +897,8 @@ body:after{
     </section>
   </main>
 
-  <div class="breadcrumb" style="margin-top:26px"><a href="../index.html">← Zur WohnPlanbar-Hauptseite</a></div>
   <section id="finder" style="display:none">
+    <div class="breadcrumb" style="margin-top:26px"><a href="../index.html">← Zur WohnPlanbar-Hauptseite</a></div>
     <div class="finder-topbar">
       <button type="button" class="secondary" id="homeBtn">← Kaffee-Start</button>
       <div class="small">Kaffeevollautomaten-Finder · 8 Fragen</div>
@@ -1033,10 +1033,8 @@ body:after{
     <div class="fallback-step" id="fallbackResult"><strong>Demo-Ergebnis</strong><p>In der echten Version werden hier drei Empfehlungen aus den 30 hinterlegten Modellen berechnet. Diese Fallback-Ansicht dient nur dazu, die Navigation in der ChatGPT-Vorschau testen zu können.</p><a href="#finder">Zurück zum Finder</a></div>
   </section>
 
-  <div id="resultsTop" class="results-top-anchor" aria-hidden="true"></div>
-  <div class="breadcrumb" id="resultsPlatformLink" style="display:none;margin-top:26px"><a href="../index.html">← Zur WohnPlanbar-Hauptseite</a></div>
   <section id="results" class="results">
-    <div class="hero">
+    <div id="resultsTop" class="hero results-top-anchor">
       <div class="kicker">Dein Ergebnis</div>
       <h1>Diese Vollautomaten passen am besten zu dir.</h1>
       <p class="lead">Die Platzierung entsteht aus deinen Anforderungen. Affiliate-Provisionen fließen nicht in den Fit-Score ein.</p>
@@ -1047,7 +1045,7 @@ body:after{
       <strong>Wichtig für die Live-Version</strong>
       <p class="notice">Die Preisangaben und „Kaufen“-Buttons sind in diesem Prototyp bewusst noch nicht live. Später werden verfügbare Angebote, Preise und Awin-Links über Produktfeeds je SKU geladen. So bleibt die Empfehlung vom Händler unabhängig.</p>
       <div class="actions" style="justify-content:center">
-        <button class="secondary" id="resultHome">Zur Startseite</button>
+        <button class="secondary" id="resultHome">Zum Kaffee-Finder</button>
         <button class="primary" id="restart">Finder neu starten</button>
       </div>
     </div>
@@ -1111,7 +1109,6 @@ document.getElementById("previewFallback").style.display="none";
 function openFinder(){
   landing.style.display="none";
   results.classList.remove("show");
-  const rpl=document.getElementById("resultsPlatformLink"); if(rpl) rpl.style.display="none";
   finder.style.display="block";
   hardScrollToTop();
 }
@@ -1451,7 +1448,6 @@ function calculate(){
   finder.style.display="none";
   landing.style.display="none";
   results.classList.add("show");
-  const rpl=document.getElementById("resultsPlatformLink"); if(rpl) rpl.style.display="flex";
   forceResultsTop();
   initMotionReveals();
   animateScores();
