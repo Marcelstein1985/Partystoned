@@ -138,3 +138,16 @@ Ein Preview-Link wird erst geteilt, wenn:
 - Externe Unsplash-Hotlinks sind für Produktion ungeeignet.
 - CSS ist durch mehrere Override-Schichten unnötig fragil.
 - Fokus-Stile und erweiterte Screenreader-Semantik fehlen.
+
+
+## 15. Verbindlicher gerenderter Overflow-Test
+Vor jeder Freigabe ist ein echter Runtime-Test auf den Zielbreiten Pflicht.
+
+Muss für 390 px, 430 px und Desktop gelten:
+- `document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1`
+- Kein sichtbares Element darf `getBoundingClientRect().right > clientWidth + 1` haben.
+- Kein sichtbares Element darf `getBoundingClientRect().left < -1` haben.
+- Bei einem Treffer ist der Build automatisch **NICHT FREIGEGEBEN**.
+- Der verursachende DOM-Knoten muss benannt und behoben werden; `overflow-x:hidden` allein gilt nicht als ausreichende Fehlerbehebung.
+- Lange deutsche Wörter/Produktnamen müssen über `overflow-wrap`, `hyphens` oder responsive Typografie innerhalb des Viewports bleiben.
+- Flex- und Grid-Kinder, die Text enthalten, benötigen bei Bedarf `min-width:0`.
