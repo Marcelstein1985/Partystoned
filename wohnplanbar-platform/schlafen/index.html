@@ -39,6 +39,66 @@ img{max-width:100%;}
   .finder-thumb{height:auto!important;aspect-ratio:16/10!important}
 }
 /* ===== end V7.4 hotfix ===== */
+/* ===== WohnPlanbar V8.1 spacing consistency ===== */
+
+.hero{padding:50px 0 38px!important}
+.section{padding:38px 0!important}
+.section + .section{padding-top:22px!important}
+.section-copy{margin-bottom:20px!important}
+.finder-grid{gap:18px!important;align-items:stretch}
+.finder-card{
+  display:flex!important;flex-direction:column!important;
+  padding:18px!important;border-radius:28px!important;min-height:100%
+}
+.finder-thumb{
+  flex:0 0 auto;margin:-18px -18px 16px!important;
+  border-radius:27px 27px 18px 18px!important;
+  aspect-ratio:16/10!important
+}
+.finder-icon{flex:0 0 auto}
+.finder-card h3{margin:15px 0 7px!important;font-size:23px!important;line-height:1.08}
+.finder-card p{margin:0!important;line-height:1.52!important}
+.finder-card .status{
+  margin-top:auto!important;align-self:flex-start;
+  transform:translateY(8px);margin-bottom:8px
+}
+.plan{margin-top:0!important}
+@media(max-width:640px){
+  .wrap{padding:0 16px 36px!important}
+  .breadcrumb{padding-top:18px!important}
+  .hero{padding:30px 0 26px!important;gap:18px!important}
+  .hero-board.with-photo{
+    aspect-ratio:16/11!important;min-height:0!important;max-height:none!important;
+    border-radius:28px!important
+  }
+  .hero-board-inner{
+    margin:12px!important;width:calc(100% - 24px)!important;
+    padding:15px 16px!important;border-radius:19px!important
+  }
+  .section{padding:28px 0!important}
+  .section + .section{padding-top:18px!important}
+  .section-copy{margin-bottom:18px!important}
+  .finder-grid{grid-template-columns:1fr!important;gap:16px!important}
+  .finder-card{
+    padding:16px!important;border-radius:26px!important;
+    box-shadow:0 14px 36px rgba(55,39,27,.08)!important
+  }
+  .finder-thumb{
+    margin:-16px -16px 15px!important;
+    border-radius:25px 25px 17px 17px!important;
+    aspect-ratio:16/9!important
+  }
+  .finder-card h3{font-size:24px!important;margin:14px 0 7px!important}
+  .finder-card p{font-size:14px!important;line-height:1.5!important}
+  .finder-card .status{
+    margin-top:18px!important;transform:none!important;margin-bottom:0!important;
+    padding:8px 10px!important
+  }
+  .plan{padding:22px!important;border-radius:27px!important}
+  footer{padding:30px 0 12px!important}
+}
+
+/* ===== end WohnPlanbar V8.1 spacing consistency ===== */
 </style>
 </head>
 <body>
