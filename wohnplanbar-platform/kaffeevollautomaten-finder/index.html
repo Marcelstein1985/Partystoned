@@ -798,6 +798,40 @@ body:after{
 .results-top-anchor{scroll-margin-top:18px}
 @media(min-width:641px){.results-top-anchor{scroll-margin-top:92px}}
 
+
+/* ===== Result page mobile polish ===== */
+.wp-product-placeholder{
+  min-height:250px;height:100%;display:grid;place-items:center;text-align:center;padding:24px;
+  background:
+    radial-gradient(circle at 75% 20%,rgba(255,255,255,.8),transparent 24%),
+    linear-gradient(145deg,#eff5f1,#e7efeb);
+  color:var(--accent-dark)
+}
+.wp-product-placeholder-inner{max-width:190px}
+.wp-product-placeholder-mark{
+  width:62px;height:62px;border-radius:20px;margin:0 auto 14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--accent-dark),#6f9181);color:#fff;font-weight:900;font-size:22px;
+  box-shadow:0 12px 26px rgba(50,80,65,.16)
+}
+.wp-product-placeholder strong{display:block;font-size:15px;line-height:1.25}
+.wp-product-placeholder span{display:block;margin-top:5px;font-size:11px;color:var(--muted);line-height:1.4}
+#results{padding-bottom:max(80px,env(safe-area-inset-bottom))}
+@media(max-width:640px){
+  #results{padding-bottom:150px}
+  #results .hero{padding-top:18px;padding-bottom:8px}
+  #results .hero h1{font-size:clamp(36px,10.5vw,48px);line-height:1.02;margin-bottom:14px}
+  #results .hero .lead{font-size:16px;line-height:1.52}
+  .wp-result-photo,.wp-result-photo img,.wp-product-placeholder{min-height:205px;height:205px}
+  .result-card{padding:14px}
+  .wp-result-grid{gap:15px}
+  .result-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start}
+  .result-head h3{font-size:25px;line-height:1.03;margin:10px 0 7px;overflow-wrap:anywhere}
+  .score{font-size:30px}
+  .badge{font-size:11px;padding:7px 9px}
+  .result-card .small{font-size:12px;line-height:1.42}
+  .reasons{font-size:14px}
+}
+
 </style>
 </head>
 <body data-build="coffee-finder-v1-budget-rules">
@@ -1254,10 +1288,13 @@ function reasons(p,a){
   return rs.slice(0,4);
 }
 
-function resultImage(role){
-  if(role.includes("Preis-Leistungs")) return "https://images.unsplash.com/photo-1772442363880-17ad476bdfee?auto=format&fit=crop&w=1200&q=84";
-  if(role.includes("Alternative") || role.includes("Smart-Alternative")) return "https://images.unsplash.com/photo-1746289573063-2bee3bd96667?auto=format&fit=crop&w=1200&q=84";
-  return "https://images.unsplash.com/photo-1769326541255-c6612ab334a0?auto=format&fit=crop&w=1200&q=84";
+function productImage(p){
+  const exact={
+    "SA403BE0":"https://click.ua/content/shop/products/348097/kofemashina-krups-coffee-crush-experience-sa403be0-800x800-0c44-prod-500x500-b941.jpg",
+    "6769696_DE":"https://www.melitta-international.com/adobe/dynamicmedia/deliver/dm-aid--ff68e580-1113-43f9-bd6a-6f2a85aaa113/kaffeevollautomat-melitta-purista-pureblack--6771312--2.png?preferwebp=true&quality=85",
+    "ECAM450.65.S EX:4":"https://www.interdiscount.ch/static-shops/products/720/fc1ff7508d6f28f942bcac6ab365d0e72f97.jpg"
+  };
+  return exact[p.sku]||null;
 }
 
 function compromisesFor(p,a){
@@ -1320,7 +1357,9 @@ function roleCard(role,item,a){
   return `<div class="result-card reveal">
     <div class="wp-result-grid">
       <div class="wp-result-photo">
-        <img src="${resultImage(role)}" alt="Kaffeevollautomat Empfehlung ${p.b} ${p.m}" loading="lazy">
+        ${productImage(p)
+          ? `<img src="${productImage(p)}" alt="${p.b} ${p.m}" loading="lazy">`
+          : `<div class="wp-product-placeholder"><div class="wp-product-placeholder-inner"><div class="wp-product-placeholder-mark">${p.b.charAt(0)}</div><strong>${p.b} ${p.m}</strong><span>Echtes Modellfoto wird ergänzt – bis dahin zeigen wir bewusst kein fremdes Gerät.</span></div></div>`}
         <div class="wp-product-brand">${p.b}</div>
       </div>
       <div>
@@ -1328,7 +1367,7 @@ function roleCard(role,item,a){
           <div>
             <span class="badge">${role}</span>
             <h3>${p.b} ${p.m}</h3>
-            ${p.sku?`<div class="small"><strong>Modell:</strong> ${p.sku}${p.verified?" · Herstellerdaten geprüft":""}</div>`:""}
+            ${p.sku?`<div class="small"><strong>Modell:</strong> ${p.sku}${p.verified?" · Herstellerdaten geprüft":""}${productImage(p)?" · Modellfoto hinterlegt":""}</div>`:""}
             <div class="small">Interner Preisanker im Prototyp: ca. ${p.p.toLocaleString("de-DE")} € – später durch Live-Awin-Preis ersetzt.</div>
           </div>
           <div class="score" data-score="${score}">0%</div>
