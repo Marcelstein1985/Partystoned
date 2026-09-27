@@ -134,6 +134,20 @@ footer{padding:46px 0 60px;color:var(--muted);font-size:12px;line-height:1.6}.fo
   .future{padding:24px;border-radius:27px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.motion .reveal.pending{opacity:1;transform:none}}
+/* ===== WohnPlanbar V7.4 image-layout hotfix ===== */
+img{max-width:100%;}
+.category-photo{height:auto!important;aspect-ratio:16/10!important;overflow:hidden!important}
+.category-photo img{width:100%!important;height:100%!important;object-fit:cover!important}
+.hero-art{overflow:hidden!important}
+.hero-art-photo{width:100%!important;height:100%!important;object-fit:cover!important}
+@media(max-width:640px){
+  .category-photo{height:auto!important;aspect-ratio:16/10!important}
+  .hero-art{min-height:430px!important}
+}
+@media(hover:hover){
+  .category:hover .category-photo img{transform:scale(1.055)!important}
+}
+/* ===== end V7.4 hotfix ===== */
 </style>
 </head>
 <body>
