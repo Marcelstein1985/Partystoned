@@ -148,6 +148,55 @@ img{max-width:100%;}
   .category:hover .category-photo img{transform:scale(1.055)!important}
 }
 /* ===== end V7.4 hotfix ===== */
+/* ===== WohnPlanbar V8.1 spacing consistency ===== */
+
+/* consistent vertical rhythm */
+.section{padding:52px 0}
+.section + .section{padding-top:34px}
+.section-head{margin-bottom:24px}
+.category-grid{gap:18px;align-items:stretch}
+.category{
+  display:flex!important;flex-direction:column!important;
+  min-height:100%;padding:18px!important;border-radius:28px!important
+}
+.category-photo{
+  flex:0 0 auto;margin:-18px -18px 16px!important;
+  border-radius:27px 27px 18px 18px!important
+}
+.category .icon{flex:0 0 auto}
+.category h3{margin:16px 0 7px!important;font-size:22px!important;line-height:1.08}
+.category p{margin:0!important;min-height:0!important;line-height:1.52}
+.category .status{
+  margin-top:auto!important;padding-top:8px;align-self:flex-start;
+  transform:translateY(8px);margin-bottom:8px
+}
+.feature{margin-top:0}
+@media(max-width:640px){
+  .hero{padding:34px 0 30px!important}
+  .section{padding:30px 0!important}
+  .section + .section{padding-top:20px!important}
+  .section-head{margin-bottom:18px!important}
+  .category-grid{gap:16px!important}
+  .category{
+    padding:16px!important;border-radius:26px!important;
+    box-shadow:0 14px 36px rgba(55,39,27,.08)!important
+  }
+  .category-photo{
+    margin:-16px -16px 15px!important;
+    border-radius:25px 25px 17px 17px!important;
+    aspect-ratio:16/9!important
+  }
+  .category h3{font-size:25px!important;margin:14px 0 7px!important}
+  .category p{font-size:15px!important;line-height:1.5!important}
+  .category .status{
+    margin-top:18px!important;transform:none!important;margin-bottom:0!important;
+    padding:8px 10px!important
+  }
+  .feature{margin-top:0!important}
+  footer{padding-top:30px!important}
+}
+
+/* ===== end WohnPlanbar V8.1 spacing consistency ===== */
 </style>
 </head>
 <body>
@@ -200,7 +249,7 @@ img{max-width:100%;}
       <div class="icon"><svg viewBox="0 0 24 24"><path d="M5 5h12v10H5z"/><path d="M17 8h2a2 2 0 0 1 0 4h-2M8 18h6"/></svg></div>
       <h3>Küche & Kaffee</h3><p>Kaffeevollautomaten, Airfryer, Küchenmaschinen und weitere Küchenhelfer.</p><span class="status">1 Finder verfügbar</span>
     </a>
-    <a class="category" href="haushalt/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1751945965248-70b952b11193?auto=format&fit=crop&w=1600&q=82" alt="Moderner Hauswirtschaftsraum mit Waschgeräten"></div><div class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M8 11h6"/></svg></div><h3>Haushalt</h3><p>Saugroboter, Staubsauger, Waschmaschinen, Trockner und mehr.</p><span class="status">Bereich ansehen</span></a>
+    <a class="category" href="haushalt/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1751945965248-70b952b11193?auto=format&fit=crop&w=1600&q=82" alt="Moderner Hauswirtschaftsraum mit Waschgeräten"></div><div class="icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4M8 11h6"/></svg></div><h3>Haushalt</h3><p>Saugroboter, Staubsauger, Waschmaschinen, Trockner und mehr.</p><span class="status">1 Finder verfügbar</span></a>
     <a class="category" href="wohnen-licht/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1769970901390-422375b883de?auto=format&fit=crop&w=1600&q=82" alt="Modernes Wohnzimmer mit stimmungsvoller Beleuchtung"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M9 3h6l2 6H7z"/><path d="M12 9v8m-4 4h8"/></svg></div><h3>Wohnen & Licht</h3><p>Lampen, Sofas, Tische, Schränke und passende Einrichtungslösungen.</p><span class="status">1 Finder verfügbar</span></a>
     <a class="category" href="schlafen/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1784318519037-7ee0b1668e95?auto=format&fit=crop&w=1600&q=82" alt="Modernes warmes Schlafzimmer"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18v7H3z"/><path d="M6 12V8h12v4M5 19v2m14-2v2"/></svg></div><h3>Schlafen</h3><p>Matratzen, Betten und Schlafsysteme passend zu deinen Gewohnheiten.</p><span class="status">Bereich ansehen</span></a>
     <a class="category" href="garten-outdoor/index.html"><div class="category-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1776186243408-3c0489503faa?auto=format&fit=crop&w=1600&q=82" alt="Moderne Terrasse mit Garten und Outdoor-Möbeln"></div><div class="icon"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0 3c4 0 7-2 7-6-4 0-7 2-7 6Z"/></svg></div><h3>Garten & Outdoor</h3><p>Grills, Mähroboter, Gartenmöbel, Pools und Outdoor-Technik.</p><span class="status">Bereich ansehen</span></a>
