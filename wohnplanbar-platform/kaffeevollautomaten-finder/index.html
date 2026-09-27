@@ -794,6 +794,10 @@ body:after{
 .budget-flex-opt span{min-width:0}.budget-flex-opt b{display:block;font-size:13px}.budget-flex-opt small{display:block;margin-top:3px;color:var(--muted);line-height:1.35}
 @media(max-width:640px){.budget-flex-grid{grid-template-columns:1fr}}
 
+
+.results-top-anchor{height:1px;width:100%;scroll-margin-top:18px}
+@media(min-width:641px){.results-top-anchor{scroll-margin-top:92px}}
+
 </style>
 </head>
 <body data-build="coffee-finder-v1-budget-rules">
@@ -1029,6 +1033,7 @@ body:after{
     <div class="fallback-step" id="fallbackResult"><strong>Demo-Ergebnis</strong><p>In der echten Version werden hier drei Empfehlungen aus den 30 hinterlegten Modellen berechnet. Diese Fallback-Ansicht dient nur dazu, die Navigation in der ChatGPT-Vorschau testen zu können.</p><a href="#finder">Zurück zum Finder</a></div>
   </section>
 
+  <div id="resultsTop" class="results-top-anchor" aria-hidden="true"></div>
   <div class="breadcrumb" id="resultsPlatformLink" style="display:none;margin-top:26px"><a href="../index.html">← Zur WohnPlanbar-Hauptseite</a></div>
   <section id="results" class="results">
     <div class="hero">
@@ -1108,13 +1113,35 @@ function openFinder(){
   results.classList.remove("show");
   const rpl=document.getElementById("resultsPlatformLink"); if(rpl) rpl.style.display="none";
   finder.style.display="block";
-  window.scrollTo({top:0,left:0,behavior:"auto"});
+  hardScrollToTop();
 }
+function hardScrollToTop(){
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
+  window.scrollTo(0,0);
+}
+
+function forceResultsTop(){
+  const anchor=document.getElementById("resultsTop");
+  // iOS/Safari can restore the previous position after display/layout changes.
+  // Wait for two layout frames, then enforce the result start again.
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      hardScrollToTop();
+      if(anchor) anchor.scrollIntoView({block:"start",behavior:"auto"});
+      setTimeout(()=>{
+        hardScrollToTop();
+        if(anchor) anchor.scrollIntoView({block:"start",behavior:"auto"});
+      },80);
+    });
+  });
+}
+
 function openHome(){
   finder.style.display="none";
   results.classList.remove("show");
   landing.style.display="block";
-  window.scrollTo({top:0,left:0,behavior:"auto"});
+  hardScrollToTop();
 }
 document.querySelectorAll(".start-finder").forEach(btn=>btn.addEventListener("click",openFinder));
 document.getElementById("homeBtn").addEventListener("click",openHome);
@@ -1425,7 +1452,7 @@ function calculate(){
   landing.style.display="none";
   results.classList.add("show");
   const rpl=document.getElementById("resultsPlatformLink"); if(rpl) rpl.style.display="flex";
-  window.scrollTo({top:0,behavior:"auto"});
+  forceResultsTop();
   initMotionReveals();
   animateScores();
 }
@@ -1436,7 +1463,7 @@ document.getElementById("restart").onclick=()=>{
   results.classList.remove("show");
   landing.style.display="none";
   finder.style.display="block";
-  window.scrollTo({top:0,behavior:"smooth"});
+  requestAnimationFrame(()=>hardScrollToTop());
 };
 document.getElementById("resultHome").addEventListener("click",openHome);
 showStep();
