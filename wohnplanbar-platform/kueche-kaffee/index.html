@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Küche & Kaffee · WohnPlanbar</title>
+<meta name="description" content="WohnPlanbar Küche & Kaffee: smarte Finder für Kaffeevollautomaten und künftig weitere Küchengeräte.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#f5f0e7">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Küche & Kaffee · WohnPlanbar">
+<meta property="og:description" content="Finde Küchengeräte, die wirklich zu deinem Alltag passen – mit kurzen Fragen statt endlosen Bestenlisten.">
+<style>
+:root{
+  --bg:#f5f0e7;--card:#fffdf9;--text:#241b15;--muted:#74675e;--line:rgba(62,43,31,.13);
+  --accent:#4e6b59;--accent-dark:#263e32;--accent2:#e2ebe3;--coffee:#6a4532;--sand:#c7aa87;
+  --shadow:0 24px 70px rgba(63,43,28,.10)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 12% -10%,rgba(212,187,153,.28),transparent 30%),radial-gradient(circle at 92% 14%,rgba(87,117,92,.12),transparent 26%),linear-gradient(180deg,#fbf8f2 0%,var(--bg) 58%,#efe6d8 100%)}
+a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px 56px}
+.site-header{position:sticky;top:12px;z-index:30;margin-top:12px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid rgba(65,47,35,.11);background:rgba(255,253,249,.84);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:18px;box-shadow:0 12px 36px rgba(55,37,25,.07)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:18px;font-weight:850}.brand-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent-dark),#617b67);color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:18px;font-weight:700}
+.nav{display:flex;align-items:center;gap:8px}.nav a{text-decoration:none;font-size:12px;font-weight:800;color:var(--muted);padding:9px 11px;border-radius:999px}.nav a:hover{background:rgba(78,107,89,.08);color:var(--accent-dark)}
+.breadcrumb{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:24px 0 0;color:var(--muted);font-size:12px}.breadcrumb a{text-decoration:none;font-weight:800}.breadcrumb a:hover{text-decoration:underline}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr);gap:54px;align-items:center;padding:58px 0 48px}
+.eyebrow{display:inline-flex;padding:9px 13px;border-radius:999px;background:rgba(78,107,89,.10);border:1px solid rgba(78,107,89,.14);color:var(--accent-dark);font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.045em}
+h1{font-size:clamp(48px,7vw,82px);line-height:.96;margin:18px 0 22px}.lead{font-size:18px;line-height:1.65;color:var(--muted);max-width:690px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:15px;padding:15px 20px;font-weight:850;font-size:15px;transition:.2s ease}.btn.primary{color:#fff;background:linear-gradient(135deg,var(--accent-dark),#4e6b59);box-shadow:0 14px 32px rgba(38,62,50,.22)}.btn.secondary{background:rgba(255,255,255,.72);border:1px solid var(--line)}.btn:hover{transform:translateY(-2px)}
+.hero-board{min-height:430px;border-radius:34px;padding:24px;background:linear-gradient(145deg,#e7eee8,#fffaf3 48%,#eadcca);border:1px solid rgba(65,47,35,.10);box-shadow:var(--shadow);display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.board-card{border-radius:24px;background:rgba(255,253,249,.88);border:1px solid rgba(255,255,255,.78);box-shadow:0 18px 44px rgba(36,25,17,.08);padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+.board-card.big{grid-row:span 2;background:linear-gradient(160deg,#fffdf9,#edf3ee)}.board-label{display:inline-flex;align-self:flex-start;padding:7px 9px;border-radius:999px;background:var(--accent2);color:var(--accent-dark);font-size:11px;font-weight:850}.board-card h3{font-size:26px;margin:16px 0 8px}.board-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0}.board-number{font-size:48px;font-family:Georgia,serif;color:var(--coffee)}
+.section{padding:48px 0}.section h2{font-size:clamp(36px,5vw,58px);margin:0 0 10px}.section-copy{color:var(--muted);line-height:1.65;max-width:720px;margin:0 0 24px}
+.finder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.finder-card{padding:22px;border-radius:26px;background:rgba(255,253,249,.9);border:1px solid var(--line);box-shadow:0 16px 42px rgba(63,43,28,.07);text-decoration:none;transition:.22s ease}.finder-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.finder-card.active{background:linear-gradient(155deg,#fffdf9,#edf3ee);border-color:rgba(78,107,89,.24)}.finder-icon{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;background:var(--accent2);color:var(--accent-dark);font-weight:900;font-size:20px}.finder-card h3{font-size:23px;margin:18px 0 8px}.finder-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0}.status{display:inline-flex;margin-top:16px;padding:7px 9px;border-radius:999px;background:#f0eee9;color:var(--muted);font-size:11px;font-weight:850}.active .status{background:#dce9df;color:var(--accent-dark)}
+.feature{display:grid;grid-template-columns:.95fr 1.05fr;gap:26px;align-items:stretch;padding:18px;border-radius:32px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}.feature-visual{min-height:360px;border-radius:24px;background:linear-gradient(145deg,#263e32,#4e6b59);padding:28px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative}.feature-visual:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-70px;bottom:-90px;background:rgba(255,255,255,.10)}.feature-visual strong{position:relative;z-index:2;font-family:Georgia,serif;font-size:48px;font-weight:500;line-height:1}.feature-visual span{position:relative;z-index:2;color:#dce9e2;font-size:13px}.feature-copy{padding:22px 18px;display:flex;flex-direction:column;justify-content:center}.feature-copy h3{font-size:clamp(32px,4vw,48px);margin:12px 0}.feature-copy p{color:var(--muted);line-height:1.65;margin:0}.proof{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.proof div{padding:14px;border-radius:16px;background:#f8f5ef;border:1px solid var(--line)}.proof strong{display:block;font-size:14px}.proof span{font-size:11px;color:var(--muted)}
+footer{padding:46px 0 18px;color:var(--muted);font-size:12px;line-height:1.6}.footer-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:9px}.footer-links a{text-decoration:none;font-weight:750}.footer-links a:hover{text-decoration:underline}
+@media(max-width:900px){.hero,.feature{grid-template-columns:1fr}.finder-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.wrap{padding:0 16px 42px}.site-header{position:relative;top:auto;margin-top:8px}.nav a:nth-child(2){display:none}.hero{padding:36px 0 34px;gap:22px}.hero-board{min-height:350px;padding:14px;gap:10px}.board-card{padding:15px}.board-card h3{font-size:20px}.finder-grid{grid-template-columns:1fr}.proof{grid-template-columns:1fr}.actions{display:grid}.btn{width:100%}h1{font-size:clamp(44px,12vw,58px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a>
+  <nav class="nav"><a href="../index.html">Start</a><a href="../index.html#finder">Alle Bereiche</a></nav>
+</header>
+
+<nav class="breadcrumb"><a href="../index.html">WohnPlanbar</a><span>›</span><strong>Küche & Kaffee</strong></nav>
+
+<main>
+<section class="hero">
+  <div>
+    <span class="eyebrow">WohnPlanbar Bereich</span>
+    <h1>Küche & Kaffee.</h1>
+    <p class="lead">Finde Geräte, die zu deinem Alltag passen – nicht einfach Produkte, die irgendwo ganz oben in einer Bestsellerliste stehen. Jeder Finder berücksichtigt andere Anforderungen, Funktionen und Budgets.</p>
+    <div class="actions">
+      <a class="btn primary" href="../kaffeevollautomaten-finder/index.html">Kaffee-Finder starten</a>
+      <a class="btn secondary" href="#finder">Alle Küchen-Finder</a>
+    </div>
+  </div>
+  <aside class="hero-board" aria-label="Küche und Kaffee Übersicht">
+    <div class="board-card big"><span class="board-label">Jetzt verfügbar</span><div><div class="board-number">8</div><h3>Fragen zum passenden Vollautomaten</h3><p>Budget, Getränke, Milch, Bohnen, Platz und Komfort werden individuell abgeglichen.</p></div></div>
+    <div class="board-card"><span class="board-label">Als Nächstes</span><div><h3>Airfryer</h3><p>Größe, Programme, Reinigung und Alltag.</p></div></div>
+    <div class="board-card"><span class="board-label">Geplant</span><div><h3>Küchenmaschinen</h3><p>Leistung, Zubehör und Einsatzbereich.</p></div></div>
+  </aside>
+</section>
+
+<section class="section" id="finder">
+  <span class="eyebrow">Finder in diesem Bereich</span>
+  <h2>Was möchtest du auswählen?</h2>
+  <p class="section-copy">Der erste Finder ist bereits vollständig nutzbar. Weitere Küchen-Finder werden später als eigene Unterseiten ergänzt, ohne den bestehenden Kaffee-Finder umzubauen.</p>
+  <div class="finder-grid">
+    <a class="finder-card active" href="../kaffeevollautomaten-finder/index.html"><div class="finder-icon">K</div><h3>Kaffeevollautomaten</h3><p>Mehrere Marken und Preisbereiche anhand deiner persönlichen Nutzung vergleichen.</p><span class="status">Jetzt starten</span></a>
+    <div class="finder-card"><div class="finder-icon">A</div><h3>Airfryer</h3><p>Passende Größe, Leistung, Programme und Komfortfunktionen finden.</p><span class="status">Demnächst</span></div>
+    <div class="finder-card"><div class="finder-icon">M</div><h3>Küchenmaschinen</h3><p>Welches System passt zu Backen, Kochen, Zubehör und deinem Budget?</p><span class="status">Geplant</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="feature">
+    <div class="feature-visual"><span>WohnPlanbar Kaffeevollautomaten-Finder</span><strong>30 Modelle.<br>3 klare Empfehlungen.</strong><span>De’Longhi · Melitta · Siemens · Krups · Nivona</span></div>
+    <div class="feature-copy">
+      <span class="eyebrow">Erster Finder</span>
+      <h3>Welcher Kaffeevollautomat passt wirklich zu dir?</h3>
+      <p>Du beantwortest acht kurze Fragen. WohnPlanbar gleicht die Antworten mit den hinterlegten Modellen ab und zeigt dir eine Gesamt-Empfehlung, einen Preis-Leistungs-Tipp und eine sinnvolle Alternative.</p>
+      <div class="proof"><div><strong>8 Fragen</strong><span>in wenigen Minuten</span></div><div><strong>5 Marken</strong><span>mehrere Preisbereiche</span></div><div><strong>3 Ergebnisse</strong><span>mit Begründung</span></div></div>
+      <div class="actions"><a class="btn primary" href="../kaffeevollautomaten-finder/index.html">Zum Kaffee-Finder</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><strong>WohnPlanbar · Küche & Kaffee</strong><br>Hinweis: WohnPlanbar kann bei einem späteren Kauf über gekennzeichnete Partnerlinks eine Provision erhalten. Die Eignungsbewertung soll davon unabhängig bleiben.<div class="footer-links"><a href="../index.html">WohnPlanbar Start</a><a href="../impressum/index.html">Impressum</a><a href="../datenschutz/index.html">Datenschutz</a></div></footer>
+</div>
+<script>if("scrollRestoration" in history)history.scrollRestoration="manual";window.addEventListener("pageshow",()=>requestAnimationFrame(()=>window.scrollTo(0,0)));</script>
+</body>
+</html>
