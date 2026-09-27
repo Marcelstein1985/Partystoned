@@ -56,6 +56,7 @@ if(html.includes("IntersectionObserver") && !/IntersectionObserver["']?\s+in\s+w
 if(!html.includes("safe-area-inset-top")) fail("iOS Safe-Area oben fehlt.");
 if(!html.includes("safe-area-inset-bottom")) warn("iOS Safe-Area unten fehlt.");
 if(!html.includes("scrollRestoration")) fail("Scroll-Restoration-Regel fehlt; Seite kann an alter Position starten.");
+if(!html.includes("checkHorizontalOverflow") || !html.includes("horizontalOverflow")) fail("Gerenderter Horizontal-Overflow-Guard fehlt.");
 if(!/:focus-visible/.test(html)) fail("Sichtbare :focus-visible Styles fehlen.");
 
 const imgs=[...html.matchAll(/<img\b[^>]*>/g)].map(m=>m[0]);
