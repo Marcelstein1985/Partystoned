@@ -347,5 +347,16 @@ function renderResults(){
 document.getElementById("restart").addEventListener("click",()=>{document.getElementById("quiz").reset();step=1;results.classList.remove("show");finder.style.display="block";showStep()});
 document.getElementById("resultHome").addEventListener("click",()=>{results.classList.remove("show");finder.style.display="none";landing.style.display="block";topNow()});
 </script>
+
+<!-- Central WohnPlanbar product/partner data layer -->
+<script src="../data/products.js"></script>
+<script src="../data/partners.js"></script>
+<script src="../assets/product-data.js"></script>
+<script>
+window.WPLampFeed = {
+  schema: window.WP_CATEGORY_SCHEMAS && window.WP_CATEGORY_SCHEMAS.lampen,
+  products: window.WohnPlanbarData ? window.WohnPlanbarData.products.filter(function(p){return p.category === "lampen";}) : []
+};
+</script>
 </body>
 </html>
