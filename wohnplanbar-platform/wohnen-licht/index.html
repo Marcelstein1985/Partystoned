@@ -99,6 +99,32 @@ img{max-width:100%;}
 }
 
 /* ===== end WohnPlanbar V8.1 spacing consistency ===== */
+/* ===== WohnPlanbar V8.2 final topic alignment ===== */
+.hero{grid-template-columns:minmax(0,1fr) minmax(380px,.92fr)!important;align-items:center!important}
+.hero>div:first-child{align-self:center}
+.hero h1{margin-top:14px!important;margin-bottom:16px!important}
+.hero .lead{margin-bottom:0!important}
+.hero-board{height:420px!important;min-height:420px!important;max-height:420px!important;overflow:hidden!important}
+.hero-board.with-photo,.board-image{overflow:hidden!important}
+.hero-board-photo,.board-image img{width:100%!important;height:100%!important;object-fit:cover!important}
+.section>h2{margin-top:13px!important;margin-bottom:10px!important}
+.finder-card{height:100%!important}
+.finder-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+@media(max-width:900px){
+ .hero{grid-template-columns:1fr!important}
+ .hero-board{height:auto!important;min-height:360px!important;max-height:none!important}
+}
+@media(max-width:640px){
+ .hero{padding-top:26px!important;padding-bottom:24px!important}
+ .hero h1{margin-top:12px!important;margin-bottom:13px!important}
+ .hero .lead{font-size:16px!important;line-height:1.58!important}
+ .hero-board{height:auto!important;min-height:0!important;aspect-ratio:16/11!important}
+ .hero-board.with-photo{aspect-ratio:16/11!important}
+ .section>h2{margin-top:11px!important;margin-bottom:8px!important}
+ .section-copy{margin-top:0!important}
+ .finder-card{height:auto!important}
+}
+/* ===== end WohnPlanbar V8.2 final topic alignment ===== */
 </style>
 </head>
 <body>
