@@ -900,6 +900,15 @@ body:after{
   .offer-box{margin-top:14px}
 }
 
+/* ===== WohnPlanbar V7.4 image-layout hotfix ===== */
+img{max-width:100%;}
+.premium-hero-media,.premium-story-photo,.wp-result-photo{overflow:hidden!important}
+.premium-hero-media img,.premium-story-photo img,.wp-result-photo img{max-width:100%!important;object-fit:cover!important}
+@media(max-width:640px){
+  .premium-hero-media,.premium-hero-media img{height:340px!important;min-height:340px!important}
+  .premium-story-photo,.premium-story-photo img{height:300px!important;min-height:300px!important}
+}
+/* ===== end V7.4 hotfix ===== */
 </style>
 </head>
 <body data-build="coffee-finder-v5-tracking-mobile-qa">
