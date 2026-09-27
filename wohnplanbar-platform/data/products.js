@@ -764,7 +764,7 @@ window.WP_CATEGORY_SCHEMAS = {
       "ipRating", "energyClass", "widthMm", "heightMm", "depthMm"
     ]
   },
-  saugroboter: {
+  airfryer: {\n    matchFields: ["ean", "brand", "model"],\n    attributes: ["capacityL", "basketCount", "dualZone", "powerW", "temperatureMinC", "temperatureMaxC", "programs", "dishwasherSafe", "smart", "widthMm", "heightMm", "depthMm"]\n  },\n  saugroboter: {
     matchFields: ["ean", "brand", "model"],
     attributes: [
       "areaMaxM2", "navigation", "obstacleAvoidance", "carpetDetection",
