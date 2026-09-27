@@ -15,6 +15,35 @@ a{color:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px 56px}.site-hea
 .results{display:none}.results.show{display:block}.results-head{padding:28px 0 12px}.result-card{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:18px;margin:15px 0;box-shadow:0 18px 48px rgba(63,43,28,.07)}.result-visual{min-height:230px;border-radius:20px;background:linear-gradient(145deg,#e7eee8,#fff8ed);padding:20px;display:flex;flex-direction:column;justify-content:space-between}.robot-symbol{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:#fff;color:var(--accent-dark);font-weight:900;font-size:20px}.badge{display:inline-flex;background:var(--accent2);color:var(--accent-dark);font-weight:850;border-radius:999px;padding:7px 10px;font-size:12px}.result-card h3{font-size:30px;margin:9px 0 6px}.desc{color:var(--muted);line-height:1.58;font-size:14px}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}.fact{border:1px solid var(--line);border-radius:14px;padding:11px;background:#fbfaf7}.fact b{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}.fact span{font-size:13px;font-weight:800}.reasons{list-style:none;padding:0}.reasons li{padding:5px 0;font-size:13px}.reasons li:before{content:"✓";font-weight:900;color:var(--accent);margin-right:8px}.offer{margin-top:16px;padding:15px;border-radius:16px;background:#f7f9f7;border:1px solid rgba(78,107,89,.12);font-size:12px;color:var(--muted)}.footer{padding:36px 0 10px;color:var(--muted);font-size:12px}
 @media(max-width:900px){.hero,.shell{grid-template-columns:1fr}.side{position:static}.result-card{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.wrap{padding:0 16px 42px}.site-header{position:relative;top:auto;margin-top:8px}.nav a:nth-child(2){display:none}.hero{padding:34px 0 28px;gap:20px}.hero-media{aspect-ratio:16/10}.trust{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.card{padding:18px}.facts{grid-template-columns:1fr 1fr}h1{font-size:clamp(44px,12vw,58px)}.actions{display:grid}.actions>*{width:100%}}
+/* ===== WohnPlanbar V8.3 global button safety ===== */
+button,.btn,.primary,.secondary,.header-cta,.linkbtn,[class*="cta"]{
+  box-sizing:border-box;
+  max-width:100%;
+  min-height:44px;
+  height:auto;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  line-height:1.2;
+  text-align:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.actions{align-items:stretch}
+.actions>button,.actions>a{min-width:0}
+@media(max-width:640px){
+  button,.btn,.primary,.secondary,.header-cta,.linkbtn,[class*="cta"]{
+    min-height:48px;
+    padding:12px 16px;
+    font-size:14px;
+  }
+  .actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .actions>button,.actions>a{width:100%!important;margin:0!important}
+}
+@media(max-width:390px){
+  .actions{grid-template-columns:1fr!important}
+}
+/* ===== end WohnPlanbar V8.3 global button safety ===== */
 </style></head><body><div class="wrap">
 <header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a><nav class="nav"><a href="../index.html">Start</a><a href="../haushalt/index.html">Haushalt</a></nav></header>
 <nav class="breadcrumb"><a href="../index.html">WohnPlanbar</a><span>›</span><a href="../haushalt/index.html">Haushalt</a><span>›</span><strong>Saugroboter-Finder</strong></nav>
