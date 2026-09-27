@@ -29,6 +29,7 @@ h2{font-size:28px;margin:8px 0 8px}.hint{color:var(--muted);margin-bottom:18px}
 input[type=number]{width:100%;font-size:18px;padding:14px;border:1px solid var(--line);border-radius:14px}
 .actions{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
 button{appearance:none;border:0;border-radius:14px;padding:14px 18px;font-weight:700;font-size:16px;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(78,107,89,.42);outline-offset:3px}
 .primary{background:var(--accent);color:#fff}.secondary{background:#eeeae1;color:var(--text)}
 .results{display:none}.results.show{display:block}
 .result-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
@@ -105,6 +106,8 @@ button{appearance:none;border:0;border-radius:14px;padding:14px 18px;font-weight
 }
 html{scroll-behavior:smooth}
 body{
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
   background:
     radial-gradient(circle at 12% -10%,rgba(212,187,153,.28),transparent 30%),
     radial-gradient(circle at 92% 14%,rgba(87,117,92,.12),transparent 26%),
@@ -184,7 +187,6 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
 .float-a{left:18px;bottom:18px;animation:floatA 5s ease-in-out infinite}
 .float-b{right:18px;top:20px;animation:floatB 6s ease-in-out infinite}
 .float-score{font-size:24px!important;font-weight:850;color:var(--accent-dark)!important}
-.photo-credit{position:absolute;right:14px;bottom:9px;z-index:4;color:rgba(255,255,255,.78);font-size:9px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .trust-strip{gap:14px;margin:6px 0 48px}
 .trust-item{
   position:relative;overflow:hidden;background:rgba(255,253,249,.74);
@@ -273,7 +275,8 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
 .badge{background:#ebe3d7;color:var(--coffee);padding:8px 11px}
 .score{font-family:Georgia,"Times New Roman",serif;color:var(--accent-dark)}
 .pricebox{background:#f1e9dc;border:1px solid rgba(100,70,45,.08);border-radius:16px}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.motion-ready .reveal.reveal-pending{opacity:0;transform:translateY(28px)}
 .reveal.is-visible{opacity:1;transform:none}
 @keyframes heroCopy{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @keyframes heroMedia{from{opacity:0;transform:translateY(30px) scale(.98)}to{opacity:1;transform:none}}
@@ -289,20 +292,39 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
 }
 @media(max-width:640px){
   .wrap{padding:0 15px}
-  .site-header{top:7px;margin-top:7px}
-  .landing-hero{padding:38px 0 30px;gap:26px}
-  .landing-hero h1{font-size:clamp(46px,14vw,64px)}
-  .landing-hero .lead{font-size:16px}
-  .hero-actions{display:grid}.hero-actions button,.hero-actions a{width:100%}
-  .hero-proof{gap:9px 15px}
-  .hero-media{min-height:400px;border-radius:25px}.hero-media img{min-height:400px}
-  .float-card{padding:11px 12px}.float-b{right:12px;top:12px}.float-a{left:12px;bottom:12px}
-  .trust-strip{margin-bottom:20px}
-  .section{padding:46px 0}
-  .story-image,.story-image img{min-height:320px}
-  .compare-box{padding:26px;border-radius:26px}
-  #finder .card{padding:19px;border-radius:24px}
-  .result-head{gap:10px}.score{font-size:26px}.result-card{padding:20px}
+  .site-header{
+    position:relative;top:auto;margin-top:8px;padding:9px 11px;border-radius:15px;
+  }
+  .site-header .brand{font-size:17px;gap:8px}
+  .brand-mark{width:30px;height:30px;border-radius:10px;font-size:16px}
+  .header-note{display:none}
+  .landing-hero{padding:34px 0 28px;gap:22px}
+  .landing-copy{padding-top:2px}
+  .landing-hero h1{font-size:clamp(43px,13vw,59px);line-height:.98;margin-bottom:18px}
+  .landing-hero .lead{font-size:16px;line-height:1.58}
+  .hero-actions{display:grid;gap:10px}.hero-actions button,.hero-actions a{width:100%}
+  .hero-proof{gap:8px 14px;margin-top:14px;font-size:12px}
+  .hero-media{min-height:320px;height:320px;border-radius:23px}
+  .hero-media img{min-height:320px;height:320px;object-position:center 52%}
+  .float-card{padding:10px 12px;border-radius:15px}
+  .float-b{display:none}
+  .float-a{left:12px;right:12px;bottom:12px}
+  .float-a strong{font-size:14px}.float-a span{font-size:11px}
+  .trust-strip{gap:9px;margin:0 0 18px}
+  .trust-item{padding:15px 16px;border-radius:18px}
+  .trust-item:before{width:28px;margin-bottom:10px}
+  .trust-item strong{font-size:16px;margin-bottom:3px}
+  .trust-item span{font-size:12.5px;line-height:1.38}
+  .section{padding:42px 0}
+  .visual-story{padding:18px 0 48px;gap:22px}
+  .story-image,.story-image img{min-height:290px;height:290px}
+  .compare-box{padding:24px;border-radius:24px}
+  .cta-panel{padding:30px 18px;border-radius:26px}
+  #finder{padding-top:18px}
+  #finder>.hero{padding:24px 0 18px}
+  #finder .card{padding:18px;border-radius:22px}
+  .opt{padding:15px 16px}
+  .result-head{gap:10px}.score{font-size:26px}.result-card{padding:19px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -311,7 +333,7 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
 
 </style>
 </head>
-<body>
+<body data-build="v4-stable-1">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
   <header class="site-header">
@@ -338,10 +360,9 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
         </div>
       </div>
       <aside class="hero-media" aria-label="Moderne Küche mit Kaffeemaschine">
-        <img src="https://images.unsplash.com/photo-1772442363712-67d3d7132c47?auto=format&fit=crop&q=82&w=1600" alt="Warme moderne Küche mit Kaffeebereich">
+        <img src="https://images.unsplash.com/photo-1746289573063-2bee3bd96667?auto=format&fit=crop&q=82&w=1600" alt="Kaffeemaschine und Tassen auf einer modernen Küchenzeile">
         <div class="float-card float-b"><strong class="float-score">93 %</strong><span>passt zu deinen Angaben</span></div>
         <div class="float-card float-a"><strong>Drei statt dreißig</strong><span>Gesamtsieger · Preis-Leistung · Alternative</span></div>
-        <div class="photo-credit">Foto: Tim Schmidbauer / Unsplash</div>
       </aside>
     </section>
 
@@ -353,8 +374,7 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
 
     <section class="visual-story reveal">
       <div class="story-image">
-        <img loading="lazy" src="https://images.unsplash.com/photo-1746289573063-2bee3bd96667?auto=format&fit=crop&q=82&w=1600" alt="Kaffeemaschine und Tassen auf einer modernen Küchenzeile">
-        <div class="photo-credit">Foto: Jakub Żerdzicki / Unsplash</div>
+        <img loading="lazy" src="https://images.unsplash.com/photo-1772442363712-67d3d7132c47?auto=format&fit=crop&q=82&w=1600" alt="Warme moderne Küche mit Kaffeebereich">
       </div>
       <div class="story-copy">
         <div class="kicker">Beratung statt Bestseller-Liste</div>
@@ -504,10 +524,10 @@ button,.hero-actions a{transition:transform .22s ease,box-shadow .22s ease,backg
             <label class="opt"><input type="checkbox" name="priority" value="smart"> App / Smart-Funktionen</label>
             <label class="opt"><input type="checkbox" name="priority" value="value"> Preis-Leistung</label>
           </div>
-          <div class="error" id="priorityError">Bitte höchstens zwei Punkte wählen.</div>
+          <div class="error" id="priorityError" aria-live="polite">Bitte höchstens zwei Punkte wählen.</div>
         </div>
 
-        <div class="error" id="stepError">Bitte zuerst eine Auswahl treffen.</div>
+        <div class="error" id="stepError" aria-live="polite">Bitte zuerst eine Auswahl treffen.</div>
         <div class="actions">
           <button type="button" class="secondary" id="back" style="visibility:hidden">Zurück</button>
           <button type="button" class="primary" id="next">Weiter</button>
@@ -589,6 +609,8 @@ const products = [
   {b:"Nivona",m:"NIVO 9101",p:1700, coffee:10,milk:10,variety:10,beans:2,easy:10,clean:9,custom:10,cold:10,compact:5,smart:9,capacity:10}
 ];
 
+if("scrollRestoration" in history) history.scrollRestoration="manual";
+window.addEventListener("pageshow",()=>{ requestAnimationFrame(()=>window.scrollTo(0,0)); });
 let step=1;
 const total=8;
 const steps=[...document.querySelectorAll(".step")];
@@ -604,13 +626,13 @@ function openFinder(){
   landing.style.display="none";
   results.classList.remove("show");
   finder.style.display="block";
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,left:0,behavior:"auto"});
 }
 function openHome(){
   finder.style.display="none";
   results.classList.remove("show");
   landing.style.display="block";
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,left:0,behavior:"auto"});
 }
 document.querySelectorAll(".start-finder").forEach(btn=>btn.addEventListener("click",openFinder));
 document.getElementById("homeBtn").addEventListener("click",openHome);
@@ -789,16 +811,24 @@ document.getElementById("restart").onclick=()=>{
 document.getElementById("resultHome").addEventListener("click",openHome);
 showStep();
 
-// Sanfte Scroll-Reveals der Landingpage
-const revealObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("is-visible");
-      revealObserver.unobserve(entry.target);
-    }
+// Sanfte Scroll-Reveals – rein dekorativ, Inhalte bleiben ohne JS sichtbar.
+if("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const revealItems=[...document.querySelectorAll(".reveal")];
+  const revealObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.remove("reveal-pending");
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },{threshold:.12});
+  document.documentElement.classList.add("motion-ready");
+  revealItems.forEach(el=>{
+    if(el.getBoundingClientRect().top > window.innerHeight*.82) el.classList.add("reveal-pending");
+    revealObserver.observe(el);
   });
-},{threshold:.14});
-document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+}
 </script>
 </body>
 </html>
