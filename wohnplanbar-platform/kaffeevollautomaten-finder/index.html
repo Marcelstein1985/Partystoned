@@ -947,15 +947,27 @@ button,.btn,.primary,.secondary,.header-cta,.linkbtn,[class*="cta"]{
 .product-media{aspect-ratio:4/3!important;overflow:hidden!important}
 .product-media img{width:100%!important;height:100%!important;object-fit:contain!important}
 }
+
+/* WP canonical finder header */
+.site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;min-height:64px!important;padding:10px 0!important;margin:0!important}
+.site-header .brand{display:inline-flex!important;align-items:center!important;gap:10px!important;text-decoration:none!important;color:var(--ink,#201913)!important;font-weight:850!important;font-size:15px!important;white-space:nowrap!important}
+.site-header .brand-mark{width:34px!important;height:34px!important;border-radius:10px!important;display:grid!important;place-items:center!important;background:#335847!important;color:#fff!important;font-weight:900!important;font-size:14px!important;flex:0 0 34px!important}
+.site-header .platform-nav{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex-wrap:wrap!important}
+.site-header .platform-nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:40px!important;padding:9px 13px!important;border-radius:13px!important;text-decoration:none!important;color:var(--ink,#201913)!important;background:rgba(255,255,255,.78)!important;border:1px solid rgba(80,65,52,.10)!important;font-size:13px!important;font-weight:800!important;line-height:1.1!important}
+@media(max-width:700px){
+.site-header{min-height:58px!important;padding:8px 0!important;gap:10px!important}
+.site-header .brand{font-size:14px!important}
+.site-header .brand-mark{width:32px!important;height:32px!important;flex-basis:32px!important;border-radius:9px!important}
+.site-header .platform-nav{gap:6px!important;flex-wrap:nowrap!important}
+.site-header .platform-nav a{min-height:36px!important;padding:8px 10px!important;font-size:11px!important}
+.site-header .platform-nav a:first-child{display:none!important}
+}
 </style>
 </head>
 <body data-build="coffee-finder-v5-tracking-mobile-qa">
 <noscript><div style="padding:14px;background:#fff7e8;font-family:Arial">JavaScript ist in dieser Vorschau deaktiviert. Nutze unten die Demo-Navigation oder öffne die Datei in einem normalen Browser.</div></noscript>
 <div class="wrap">
-  <header class="site-header">
-    <a class="brand platform-brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a>
-    <div class="platform-nav"><a class="platform-home" href="../index.html">WohnPlanbar Start</a><a href="../kueche-kaffee/index.html">Küche & Kaffee</a><a href="../index.html#finder">Alle Finder</a></div>
-  </header>
+  <header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">W</span><span>WohnPlanbar</span></a><nav class="platform-nav"><a href="../index.html">Start</a><a href="../kueche-kaffee/index.html">Küche & Kaffee</a><a href="../index.html#finder">Alle Finder</a></nav></header>
 
   <div class="fallback" id="previewFallback"><strong>Hinweis zur Vorschau:</strong> Falls Buttons hier nicht reagieren, blockiert die Dateivorschau JavaScript. <a href="#fallbackDemo">Dann hier die klickbare Demo-Navigation öffnen.</a></div>
 
